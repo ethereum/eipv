@@ -1,0 +1,9 @@
+[package]
+name = "eipv"
+version = "0.0.0"
+authors = ["Matt Garnett <matt.garnett@me.com>"]
+edition = "2018"
+
+[dependencies]
+anyhow = "1.0"
+url = "2.1"
