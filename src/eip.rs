@@ -6,8 +6,8 @@ use url::Url;
 
 #[derive(Debug)]
 pub struct Eip {
-    preamble: Preamble,
-    body: String,
+    pub preamble: Preamble,
+    pub body: String,
 }
 
 impl FromStr for Eip {
@@ -23,20 +23,20 @@ impl FromStr for Eip {
 
 #[derive(Debug, Default)]
 pub struct Preamble {
-    eip: Option<u64>,
-    title: Option<String>,
-    author: Option<String>,
-    discussions_to: Option<Url>,
-    status: Option<Status>,
-    review_period_end: Option<String>,
-    ty: Option<Type>,
-    category: Option<Category>,
-    created: Option<String>,
-    updated: Option<String>,
-    requires: Option<Vec<u64>>,
-    replaces: Option<Vec<u64>>,
-    superseded_by: Option<Vec<u64>>,
-    resolution: Option<Url>,
+    pub eip: Option<u64>,
+    pub title: Option<String>,
+    pub author: Option<String>,
+    pub discussions_to: Option<Url>,
+    pub status: Option<Status>,
+    pub review_period_end: Option<String>,
+    pub ty: Option<Type>,
+    pub category: Option<Category>,
+    pub created: Option<String>,
+    pub updated: Option<String>,
+    pub requires: Option<Vec<u64>>,
+    pub replaces: Option<Vec<u64>>,
+    pub superseded_by: Option<Vec<u64>>,
+    pub resolution: Option<Url>,
 }
 
 macro_rules! insert {

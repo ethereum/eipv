@@ -17,7 +17,7 @@ pub fn eip(s: &str) -> Result<u64> {
 pub fn title(s: &str) -> Result<String> {
     if TITLE_MAX_LEN < s.len() {
         return Err(anyhow!(
-            "Title length of {} exceeds max length of {}",
+            "title length of {} exceeds max length of {}",
             s.len(),
             TITLE_MAX_LEN
         ));
