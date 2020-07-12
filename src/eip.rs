@@ -58,19 +58,43 @@ impl Preamble {
         let (block, rest) = match s.starts_with("---\n") {
             false => return Err(vec![anyhow!("missing initial '---' in preamble")]),
             true => match s[4..].find("---\n") {
-                Some(idx) => (&s[4..idx], &s[idx..]),
+                Some(idx) => (&s[4..idx + 4], &s[idx + 4..]),
                 None => return Err(vec![anyhow!("missing trailing '---' in preamble")]),
             },
         };
+        let lines = block
+            .lines()
+            .map(|s| s.to_string())
+            .collect::<Vec<String>>();
 
-        for line in block.lines() {
-            let key_value: Vec<&str> = line.split(": ").collect();
-            if key_value.len() != 2 {
+        for (i, line) in block.lines().enumerate() {
+            let split_idx = line.find(":");
+            if split_idx.is_none() {
                 errors.push(anyhow!("malformed key-value pair: {}", line));
                 continue;
             }
 
-            let (key, value) = (key_value[0], key_value[1]);
+            let (key, mut value) = line.split_at(split_idx.unwrap());
+            value = value.strip_prefix(":").unwrap();
+
+            println!(
+                "line: {}, next: {} | key: {}, val: {}",
+                line,
+                if i + 1 == lines.len() {
+                    "n/a"
+                } else {
+                    &lines[i + 1]
+                },
+                key,
+                value
+            );
+
+            if &value[1..] != value.trim() {
+                errors.push(anyhow!("missing a `space` between colon and value",));
+            }
+
+            value = &value[1..];
+
             if key != key.trim() {
                 errors.push(anyhow!("extra whitespace"));
             }
@@ -145,7 +169,7 @@ impl Status {
             "Abandoned" => Ok(Self::Abandoned),
             "Superseded" => Ok(Self::Superseded),
             "Rejected" => Ok(Self::Rejected),
-            _ => Err(anyhow!("Unknown status type: {}", s)),
+            _ => Err(anyhow!("unknown status type: {}", s)),
         }
     }
 }
@@ -163,7 +187,7 @@ impl Type {
             "Standards Track" => Ok(Self::Standards),
             "Informational" => Ok(Self::Informational),
             "Meta" => Ok(Self::Meta),
-            _ => Err(anyhow!("Unknown type: {}", s)),
+            _ => Err(anyhow!("unknown type: {}", s)),
         }
     }
 }
@@ -183,7 +207,7 @@ impl Category {
             "Networking" => Ok(Self::Networking),
             "Interface" => Ok(Self::Interface),
             "ERC" => Ok(Self::Erc),
-            _ => Err(anyhow!("Unknown category: {}", s)),
+            _ => Err(anyhow!("unknown category: {}", s)),
         }
     }
 }

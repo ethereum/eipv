@@ -1,3 +1,5 @@
+#![feature(str_strip)]
+
 mod eip;
 mod validators;
 
@@ -7,12 +9,12 @@ use anyhow::Error;
 use std::env::args;
 use std::fmt;
 use std::fs;
-use std::io;
 use std::process::exit;
 
 fn main() {
     let mut args = args();
 
+    // TODO: add --eip flag to validate specific EIP
     if args.len() != 2 {
         println!("Usage: eipv [dir]");
         exit(1)
