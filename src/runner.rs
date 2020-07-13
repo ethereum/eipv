@@ -5,8 +5,8 @@ use std::fmt;
 use std::fs;
 
 #[derive(Debug, Default)]
-pub struct Runner {
-    dir: String,
+pub struct Runner<'a> {
+    path: &'a str,
     errors: Vec<(String, Vec<Error>)>,
 
     // validity count
@@ -35,67 +35,85 @@ pub struct Runner {
     networking: u64,
 }
 
-impl Runner {
-    pub fn new(dir: String) -> Self {
+impl<'a> Runner<'a> {
+    pub fn new(path: &'a str) -> Self {
         let mut ret = Self::default();
-        ret.dir = dir;
+        ret.path = path;
         ret
     }
 
     pub fn validate(&mut self) {
-        let dir = match fs::read_dir(self.dir.clone()) {
-            Ok(d) => d,
-            Err(e) => panic!(e),
-        };
-
-        for entry in dir {
-            if let Ok(entry) = entry {
-                let res: Result<Eip, Vec<Error>> =
-                    fs::read_to_string(entry.path()).unwrap().parse();
-
-                match res {
-                    Ok(eip) => {
-                        self.valid += 1;
-
-                        match eip.preamble.status {
-                            Some(Status::Draft) => self.draft += 1,
-                            Some(Status::LastCall) => self.last_call += 1,
-                            Some(Status::Accepted) => self.accepted += 1,
-                            Some(Status::Final) => self.final_ += 1,
-                            Some(Status::Active) => self.active += 1,
-                            Some(Status::Abandoned) => self.abandoned += 1,
-                            Some(Status::Superseded) => self.superseded += 1,
-                            Some(Status::Rejected) => self.rejected += 1,
-                            None => (),
+        match fs::metadata(self.path) {
+            Ok(m) => {
+                if m.is_file() {
+                    self.validate_single(self.path)
+                } else {
+                    let dir = fs::read_dir(self.path).expect("unable to read dir");
+                    for entry in dir {
+                        if let Ok(entry) = entry {
+                            self.validate_single(entry.path())
                         }
-
-                        match eip.preamble.ty {
-                            Some(Type::Standards) => self.standards += 1,
-                            Some(Type::Informational) => self.informational += 1,
-                            Some(Type::Meta) => self.meta += 1,
-                            None => (),
-                        }
-
-                        match eip.preamble.category {
-                            Some(Category::Core) => self.core += 1,
-                            Some(Category::Networking) => self.networking += 1,
-                            Some(Category::Interface) => self.interface += 1,
-                            Some(Category::Erc) => self.erc += 1,
-                            None => (),
-                        }
-                    }
-                    Err(e) => {
-                        self.invalid += 1;
-                        self.errors
-                            .push((entry.file_name().into_string().unwrap(), e));
                     }
                 }
+            }
+            Err(e) => panic!(e),
+        }
+    }
+
+    fn validate_single<P: AsRef<std::path::Path> + Clone>(&mut self, path: P) {
+        let res: Result<Eip, Vec<Error>> = fs::read_to_string(path.clone()).unwrap().parse();
+        self.count(
+            res,
+            path.as_ref()
+                .file_name()
+                .unwrap()
+                .to_str()
+                .unwrap()
+                .to_string(),
+        );
+    }
+
+    fn count(&mut self, res: Result<Eip, Vec<Error>>, file_name: String) {
+        match res {
+            Ok(eip) => {
+                self.valid += 1;
+
+                match eip.preamble.status {
+                    Some(Status::Draft) => self.draft += 1,
+                    Some(Status::LastCall) => self.last_call += 1,
+                    Some(Status::Accepted) => self.accepted += 1,
+                    Some(Status::Final) => self.final_ += 1,
+                    Some(Status::Active) => self.active += 1,
+                    Some(Status::Abandoned) => self.abandoned += 1,
+                    Some(Status::Superseded) => self.superseded += 1,
+                    Some(Status::Rejected) => self.rejected += 1,
+                    None => (),
+                }
+
+                match eip.preamble.ty {
+                    Some(Type::Standards) => self.standards += 1,
+                    Some(Type::Informational) => self.informational += 1,
+                    Some(Type::Meta) => self.meta += 1,
+                    None => (),
+                }
+
+                match eip.preamble.category {
+                    Some(Category::Core) => self.core += 1,
+                    Some(Category::Networking) => self.networking += 1,
+                    Some(Category::Interface) => self.interface += 1,
+                    Some(Category::Erc) => self.erc += 1,
+                    None => (),
+                }
+            }
+            Err(e) => {
+                self.invalid += 1;
+                self.errors.push((file_name, e));
             }
         }
     }
 }
 
-impl fmt::Display for Runner {
+impl<'a> fmt::Display for Runner<'a> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         for error in self.errors.iter() {
             let eip = error.0.clone();

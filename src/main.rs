@@ -1,25 +1,23 @@
-#![feature(str_strip)]
-
 mod eip;
 mod runner;
 mod validators;
 
+use clap::{App, Arg};
 use runner::Runner;
-use std::env::args;
-use std::process::exit;
 
 fn main() {
-    let mut args = args();
+    let matches = App::new("eipv")
+        .version("0.0.0")
+        .about("Validate the structure of Ethereum Improvement Proposals")
+        .arg(
+            Arg::with_name("path")
+                .takes_value(true)
+                .required(true)
+                .about("Directory of EIPs or path to a specific EIP"),
+        )
+        .get_matches();
 
-    // TODO: add --eip flag to validate specific EIP
-    if args.len() != 2 {
-        println!("Usage: eipv [dir]");
-        exit(1)
-    }
-
-    let dir = args.nth(1).unwrap();
-
-    let mut runner = Runner::new(dir);
+    let mut runner = Runner::new(matches.value_of("path").unwrap());
     runner.validate();
 
     println!("{}", runner);
