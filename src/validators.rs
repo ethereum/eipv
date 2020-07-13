@@ -5,9 +5,14 @@ use url::Url;
 
 const TITLE_MAX_LEN: usize = 44;
 
-pub enum Error {
-    InvalidNumber(String),
-    TooLong(usize),
+pub fn preamble(s: &str) -> Result<(&str, &str)> {
+    match s.starts_with("---\n") {
+        false => Err(anyhow!("missing initial '---' in preamble")),
+        true => match s[4..].find("---\n") {
+            Some(idx) => Ok((&s[4..idx + 4], &s[idx + 4..])),
+            None => Err(anyhow!("missing trailing '---' in preamble")),
+        },
+    }
 }
 
 pub fn eip(s: &str) -> Result<u64> {

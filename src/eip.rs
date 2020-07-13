@@ -54,18 +54,7 @@ impl Preamble {
         let mut preamble = Preamble::default();
         let mut errors: Vec<Error> = vec![];
 
-        // first line of preamble should denote beginning
-        let (block, rest) = match s.starts_with("---\n") {
-            false => return Err(vec![anyhow!("missing initial '---' in preamble")]),
-            true => match s[4..].find("---\n") {
-                Some(idx) => (&s[4..idx + 4], &s[idx + 4..]),
-                None => return Err(vec![anyhow!("missing trailing '---' in preamble")]),
-            },
-        };
-        let lines = block
-            .lines()
-            .map(|s| s.to_string())
-            .collect::<Vec<String>>();
+        let (block, rest) = validators::preamble(s).map_err(|e| vec![e])?;
 
         for (i, line) in block.lines().enumerate() {
             let split_idx = line.find(":");
@@ -76,18 +65,6 @@ impl Preamble {
 
             let (key, mut value) = line.split_at(split_idx.unwrap());
             value = value.strip_prefix(":").unwrap();
-
-            println!(
-                "line: {}, next: {} | key: {}, val: {}",
-                line,
-                if i + 1 == lines.len() {
-                    "n/a"
-                } else {
-                    &lines[i + 1]
-                },
-                key,
-                value
-            );
 
             if &value[1..] != value.trim() {
                 errors.push(anyhow!("missing a `space` between colon and value",));

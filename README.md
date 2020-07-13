@@ -72,3 +72,4 @@ Proposals](https://eips.ethereum.org) meet certain requirements.
   `Copyright and related rights waived via CC0.`
 - [ ] The EIP body does not include any unclosed brackets or parentheses
   outside of code snippets
+- [ ] File name is of form `eip-N.md`, where `N` coresponds to the EIP's assigned number
