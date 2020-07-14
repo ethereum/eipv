@@ -116,6 +116,34 @@ impl Preamble {
             }
         }
 
+        if preamble.eip.is_none() {
+            errors.push(anyhow!("missing eip field in preamble"));
+        }
+
+        if preamble.title.is_none() {
+            errors.push(anyhow!("missing title field in preamble"));
+        }
+
+        if preamble.author.is_none() {
+            errors.push(anyhow!("missing author field in preamble"));
+        }
+
+        if preamble.discussions_to.is_none() {
+            errors.push(anyhow!("missing discussions-to field in preamble"));
+        }
+
+        if preamble.status.is_none() {
+            errors.push(anyhow!("missing status field in preamble"));
+        }
+
+        if let Some(ty) = preamble.ty {
+            if ty == Type::Standards && preamble.category.is_none() {
+                errors.push(anyhow!("missing category field in preamble"));
+            }
+        } else {
+            errors.push(anyhow!("missing type field in preamble"));
+        }
+
         match errors.is_empty() {
             true => Ok((preamble, rest.to_string())),
             false => Err(errors),
@@ -151,7 +179,7 @@ impl Status {
     }
 }
 
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Type {
     Standards,
     Informational,
@@ -169,7 +197,7 @@ impl Type {
     }
 }
 
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub enum Category {
     Core,
     Networking,

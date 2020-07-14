@@ -1,3 +1,4 @@
+#![allow(unused_variables)]
 mod eip;
 mod runner;
 mod validators;
