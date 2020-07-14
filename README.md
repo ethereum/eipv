@@ -1,5 +1,8 @@
 # EIP validator
 
+[![license](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue)](https://github.com/lightclient/eipv)
+[![ci status](https://github.com/lightclient/eipv/workflows/ci/badge.svg)](https://github.com/lightclient/eipv/actions)
+
 An engine which ensures [Ethereum Improvement
 Proposals](https://eips.ethereum.org) meet certain requirements.
 
@@ -18,7 +21,7 @@ Proposals](https://eips.ethereum.org) meet certain requirements.
     - `category` (iff `type` == "Standards Track")
 - [x] Preamble does not include any unknown fields
 - [ ] Preamble fields are properly formed:
-    - Each field is of the shape `{field}: {value}\n`
+    - [ ] Each field is of the shape `{field}: {value}\n`
     - [ ] `eip` is an unsigned integer
     - [ ] `title` is a string whose length is less than 44 characters
     - [ ] `author` is a comma-separated string of author information which has
