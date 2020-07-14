@@ -1,4 +1,4 @@
-name: client-test
+name: eipv-test
 
 on: [push]
 
