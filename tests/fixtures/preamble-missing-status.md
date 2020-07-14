@@ -1,7 +1,7 @@
 ---
 eip: 1
 title: A sample proposal
-author: John Doe (@johndoe)>
+author: John Doe (@johndoe)
 discussions-to: https://example.com
 type: Standards Track
 category: Core
