@@ -9,13 +9,14 @@ Proposals](https://eips.ethereum.org) meet certain requirements.
 ## Getting Started
 
 You'll need the Rust `nightly` toolchain. To install it:
-```
+
+```console
 rustup toolchain install nightly
 ```
 
 Now to install `eipv` and validate the EIPs repository:
 
-```
+```console
 git clone https://github.com/lightclient/eipv.git
 cargo +nightly install --path=eipv eipv
 eipv /path/to/EIPS
