@@ -6,7 +6,24 @@
 An engine which ensures [Ethereum Improvement
 Proposals](https://eips.ethereum.org) meet certain requirements.
 
+## Getting Started
+
+You'll need the Rust `nightly` toolchain. To install it:
+```
+rustup toolchain install nightly
+```
+
+Now to install `eipv` and validate the EIPs repository:
+
+```
+git clone https://github.com/lightclient/eipv.git
+cargo +nightly install --path=eipv eipv
+eipv /path/to/EIPS
+```
+
 ## Requirements
+
+This tracks what `eipv` can validate.
 
 - [x] Preamble starts with `---`
 - [x] Preamble ends with `---`
