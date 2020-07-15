@@ -51,9 +51,9 @@ Proposals](https://eips.ethereum.org) meet certain requirements.
     - [ ] `review-period-end` is a date value 
     - [ ] `created` is a date value 
     - [ ] `updated` is a comma-separated list of date values
-    - [ ] `requires` is a comma-separated list of EIP numbers
-    - [ ] `superseded-by` is a comma-separated list of EIP numbers
-    - [ ] `replaces` is a comma-separated list of EIP numbers
+    - [ ] `requires` is a comma-separated list of EIP numbers in ascending order
+    - [ ] `superseded-by` is a comma-separated list of EIP numbers in ascending order
+    - [ ] `replaces` is a comma-separated list of EIP numbers in ascending order
     - [ ] `resolution` is a URL
 - [ ] EIP numbers listed as `required` exist
 - [ ] EIP numbers listed as `superseded-by` exist and list the current EIP in
