@@ -28,7 +28,7 @@ Proposals](https://eips.ethereum.org) meet certain requirements.
       three possible shapes:
         - Name only: `John A. Doe`
         - Name and email: `John A. Doe <john@doe.com>`
-        - Name and Github username: `John A. Doe (@johndoe)
+        - Name and Github username: `John A. Doe (@johndoe)`
     - [ ] `discussions-to` is a URL where discussions regarding the EIP should be
       directed -- it cannot point to the EIP's pull request URL
     - [ ] `status` is one of the following string values:
