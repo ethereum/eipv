@@ -44,8 +44,14 @@ fn preamble_malformed_field() {
 
 #[test]
 fn preamble_malformed_eip() {
-    test_fixture("preamble-malformed-eip.md", "EIP should be an unsigned integer");
-    test_fixture("preamble-malformed-eip-signed-int.md", "EIP should be an unsigned integer");
+    test_fixture(
+        "preamble-malformed-eip.md",
+        "EIP should be an unsigned integer",
+    );
+    test_fixture(
+        "preamble-malformed-eip-signed-int.md",
+        "EIP should be an unsigned integer",
+    );
 }
 
 #[test]

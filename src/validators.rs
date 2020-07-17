@@ -16,7 +16,8 @@ pub fn preamble(s: &str) -> Result<(&str, &str)> {
 }
 
 pub fn eip(s: &str) -> Result<u64> {
-    Ok(s.parse::<u64>().with_context(|| "EIP should be an unsigned integer")?)
+    Ok(s.parse::<u64>()
+        .with_context(|| "EIP should be an unsigned integer")?)
 }
 
 pub fn title(s: &str) -> Result<String> {
