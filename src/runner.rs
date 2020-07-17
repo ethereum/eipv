@@ -123,7 +123,7 @@ impl<'a> fmt::Display for Runner<'a> {
         }
 
         write!(f, "\n")?;
-        write!(f, "draft: {}, last_call: {}, accepted: {}, final: {}, active: {}, abandonded: {}, superseded: {}, rejected: {}\n", self.draft, self.last_call, self.accepted, self.final_, self.active, self.abandoned, self.superseded, self.rejected)?;
+        write!(f, "draft: {}, last_call: {}, accepted: {}, final: {}, active: {}, abandoned: {}, superseded: {}, rejected: {}\n", self.draft, self.last_call, self.accepted, self.final_, self.active, self.abandoned, self.superseded, self.rejected)?;
         write!(f, "valid: {}, invalid: {}", self.valid, self.invalid)
     }
 }

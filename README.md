@@ -33,17 +33,18 @@ This tracks what `eipv` can validate.
     - `category` (iff `type` == "Standards Track")
 - [x] Preamble does not include any unknown fields
 - [ ] Preamble fields are properly formed:
-    - [ ] Each field is of the shape `{field}: {value}\n`
-    - [ ] `eip` is an unsigned integer
-    - [ ] `title` is a string whose length is less than 44 characters
+    - [x] Each field is of the shape `{field}: {value}\n`
+    - [x] `eip` is an unsigned integer
+    - [x] `title` is a string whose length is less than 44 characters
     - [ ] `author` is a comma-separated string of author information which has
       three possible shapes:
         - Name only: `John A. Doe`
         - Name and email: `John A. Doe <john@doe.com>`
         - Name and Github username: `John A. Doe (@johndoe)`
-    - [ ] `discussions-to` is a URL where discussions regarding the EIP should be
-      directed -- it cannot point to the EIP's pull request URL
-    - [ ] `status` is one of the following string values:
+    - [x] `discussions-to` is a URL where discussions regarding the EIP should be
+      directed
+    - [ ] `discussions-to` does not point to a PR
+    - [x] `status` is one of the following string values:
         - `draft`
         - `last call`
         - `accepted`

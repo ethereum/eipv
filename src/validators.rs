@@ -16,7 +16,7 @@ pub fn preamble(s: &str) -> Result<(&str, &str)> {
 }
 
 pub fn eip(s: &str) -> Result<u64> {
-    Ok(s.parse::<u64>().with_context(|| "EIP should be a number")?)
+    Ok(s.parse::<u64>().with_context(|| "EIP should be an unsigned integer")?)
 }
 
 pub fn title(s: &str) -> Result<String> {
@@ -37,7 +37,7 @@ pub fn author(s: &str) -> Result<String> {
 }
 
 pub fn discussions_to(s: &str) -> Result<Url> {
-    Ok(Url::parse(s)?)
+    Ok(Url::parse(s).map_err(|_| anyhow!("discussions-to must be a URL"))?)
 }
 
 pub fn status(s: &str) -> Result<Status> {

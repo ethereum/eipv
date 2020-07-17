@@ -36,3 +36,36 @@ fn preamble_has_required_fields() {
 fn preamble_unknown_field() {
     test_fixture("preamble-unknown-field.md", "unknown preamble key: unknown");
 }
+
+#[test]
+fn preamble_malformed_field() {
+    test_fixture("preamble-malformed-field.md", "malformed key-value pair");
+}
+
+#[test]
+fn preamble_malformed_eip() {
+    test_fixture("preamble-malformed-eip.md", "EIP should be an unsigned integer");
+    test_fixture("preamble-malformed-eip-signed-int.md", "EIP should be an unsigned integer");
+}
+
+#[test]
+fn preamble_title_too_long() {
+    test_fixture("preamble-title-too-long.md", "exceeds max length of 44");
+}
+
+#[test]
+fn preamble_invalid_discussions_to() {
+    test_fixture("preamble-invalid-discussions-to.md", "must be a URL");
+}
+
+#[test]
+fn preamble_status_discussions_to() {
+    test_fixture("preamble-status-draft.md", "draft: 1");
+    test_fixture("preamble-status-last-call.md", "last_call: 1");
+    test_fixture("preamble-status-accepted.md", "accepted: 1");
+    test_fixture("preamble-status-final.md", "final: 1");
+    test_fixture("preamble-status-abandoned.md", "abandoned: 1");
+    test_fixture("preamble-status-rejected.md", "rejected: 1");
+    test_fixture("preamble-status-superseded.md", "superseded: 1");
+    test_fixture("preamble-status-invalid.md", "unknown status type: Invalid");
+}
