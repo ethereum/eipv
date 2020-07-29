@@ -65,7 +65,7 @@ fn preamble_invalid_discussions_to() {
 }
 
 #[test]
-fn preamble_status_discussions_to() {
+fn preamble_status() {
     test_fixture("preamble-status-draft.md", "draft: 1");
     test_fixture("preamble-status-last-call.md", "last_call: 1");
     test_fixture("preamble-status-accepted.md", "accepted: 1");
@@ -74,4 +74,23 @@ fn preamble_status_discussions_to() {
     test_fixture("preamble-status-rejected.md", "rejected: 1");
     test_fixture("preamble-status-superseded.md", "superseded: 1");
     test_fixture("preamble-status-invalid.md", "unknown status type: Invalid");
+}
+
+#[test]
+fn preamble_type() {
+    // TODO: ensure type is *actually* represented properly
+    test_fixture("preamble-type-standards.md", "draft: 1");
+    test_fixture("preamble-type-informational.md", "draft: 1");
+    test_fixture("preamble-type-meta.md", "draft: 1");
+    test_fixture("preamble-type-invalid.md", "unknown type");
+}
+
+#[test]
+fn preamble_category() {
+    // TODO: ensure category is *actually* represented properly
+    test_fixture("preamble-category-core.md", "draft: 1");
+    test_fixture("preamble-category-networking.md", "draft: 1");
+    test_fixture("preamble-category-interface.md", "draft: 1");
+    test_fixture("preamble-category-erc.md", "draft: 1");
+    test_fixture("preamble-category-invalid.md", "unknown category");
 }

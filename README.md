@@ -52,11 +52,11 @@ This tracks what `eipv` can validate.
         - `abandoned`
         - `rejected`
         - `superseded`
-    - [ ] `type` is one of the following string values:
+    - [x] `type` is one of the following string values:
         - `standards track`
         - `informational`
         - `meta`
-    - [ ] `category` is one of the following string values:
+    - [x] `category` is one of the following string values:
         - `core`
         - `networking`
         - `interface`
