@@ -1,6 +1,7 @@
 use crate::eip::{Category, Status, Type};
 
 use anyhow::{anyhow, Context, Result};
+use chrono::NaiveDate;
 use url::Url;
 
 const TITLE_MAX_LEN: usize = 44;
@@ -45,9 +46,9 @@ pub fn status(s: &str) -> Result<Status> {
     Status::from_str(s)
 }
 
-pub fn review_period_end(s: &str) -> Result<String> {
-    // TODO
-    Ok(s.to_string())
+pub fn review_period_end(s: &str) -> Result<NaiveDate> {
+    NaiveDate::parse_from_str(s, "%Y-%m-%d")
+        .map_err(|_| anyhow!("malformed review-period-end date"))
 }
 
 pub fn ty(s: &str) -> Result<Type> {
@@ -58,14 +59,12 @@ pub fn category(s: &str) -> Result<Category> {
     Category::from_str(s)
 }
 
-pub fn created(s: &str) -> Result<String> {
-    // TODO
-    Ok(s.to_string())
+pub fn created(s: &str) -> Result<NaiveDate> {
+    NaiveDate::parse_from_str(s, "%Y-%m-%d").map_err(|_| anyhow!("malformed created date"))
 }
 
-pub fn updated(s: &str) -> Result<String> {
-    // TODO
-    Ok(s.to_string())
+pub fn updated(s: &str) -> Result<NaiveDate> {
+    NaiveDate::parse_from_str(s, "%Y-%m-%d").map_err(|_| anyhow!("malformed updated date"))
 }
 
 pub fn requires(s: &str) -> Result<Vec<u64>> {

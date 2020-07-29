@@ -94,3 +94,21 @@ fn preamble_category() {
     test_fixture("preamble-category-erc.md", "draft: 1");
     test_fixture("preamble-category-invalid.md", "unknown category");
 }
+
+#[test]
+fn preamble_review_period_end() {
+    test_fixture(
+        "preamble-review-period-end-malformed.md",
+        "malformed review-period-end",
+    );
+}
+
+#[test]
+fn preamble_created() {
+    test_fixture("preamble-created-malformed.md", "malformed created");
+}
+
+#[test]
+fn preamble_updated() {
+    test_fixture("preamble-updated-malformed.md", "malformed updated");
+}

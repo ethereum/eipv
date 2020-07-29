@@ -61,9 +61,9 @@ This tracks what `eipv` can validate.
         - `networking`
         - `interface`
         - `erc`
-    - [ ] `review-period-end` is a date value 
-    - [ ] `created` is a date value 
-    - [ ] `updated` is a comma-separated list of date values
+    - [x] `review-period-end` is a date value 
+    - [x] `created` is a date value 
+    - [x] `updated` is a comma-separated list of date values
     - [ ] `requires` is a comma-separated list of EIP numbers in ascending order
     - [ ] `superseded-by` is a comma-separated list of EIP numbers in ascending order
     - [ ] `replaces` is a comma-separated list of EIP numbers in ascending order

@@ -1,6 +1,7 @@
 use crate::validators;
 
 use anyhow::{anyhow, Error, Result};
+use chrono::NaiveDate;
 use std::str::FromStr;
 use url::Url;
 
@@ -28,11 +29,11 @@ pub struct Preamble {
     pub author: Option<String>,
     pub discussions_to: Option<Url>,
     pub status: Option<Status>,
-    pub review_period_end: Option<String>,
+    pub review_period_end: Option<NaiveDate>,
     pub ty: Option<Type>,
     pub category: Option<Category>,
-    pub created: Option<String>,
-    pub updated: Option<String>,
+    pub created: Option<NaiveDate>,
+    pub updated: Option<NaiveDate>,
     pub requires: Option<Vec<u64>>,
     pub replaces: Option<Vec<u64>>,
     pub superseded_by: Option<Vec<u64>>,
