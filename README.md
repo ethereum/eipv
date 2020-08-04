@@ -82,7 +82,7 @@ This tracks what `eipv` can validate.
     - `Test Cases`
     - `Implementations`
     - `Security Considerations`
-    - `Copyright Waiver
+    - `Copyright Waiver`
 - [ ] The `Abstract` section is no longer than 200 words
 - [ ] The `Copyright Waiver` section contains only the following string:
   `Copyright and related rights waived via CC0.`
@@ -90,3 +90,4 @@ This tracks what `eipv` can validate.
   outside of code snippets
 - [ ] File name is of form `eip-N.md`, where `N` coresponds to the EIP's assigned number
 - [ ] URLs to other EIPs are relative links
+- [ ] No trailing whitespace in preamble

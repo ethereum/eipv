@@ -112,3 +112,19 @@ fn preamble_created() {
 fn preamble_updated() {
     test_fixture("preamble-updated-malformed.md", "malformed updated");
 }
+
+#[test]
+fn preamble_requires() {
+    test_fixture("preamble-requires-single.md", "draft: 1");
+    test_fixture("preamble-requires-multiple.md", "draft: 1");
+    test_fixture("preamble-requires-malformed.md", "malformed EIP number");
+    test_fixture("preamble-requires-out-of-order.md", "ascending order");
+    test_fixture(
+        "preamble-requires-no-whitespace.md",
+        "comma-separated values",
+    );
+    test_fixture(
+        "preamble-requires-too-much-whitespace.md",
+        "comma-separated values",
+    );
+}

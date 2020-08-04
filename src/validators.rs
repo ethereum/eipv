@@ -62,26 +62,51 @@ pub fn category(s: &str) -> Result<Category> {
 pub fn created(s: &str) -> Result<NaiveDate> {
     NaiveDate::parse_from_str(s, "%Y-%m-%d").map_err(|_| anyhow!("malformed created date"))
 }
-
 pub fn updated(s: &str) -> Result<NaiveDate> {
     NaiveDate::parse_from_str(s, "%Y-%m-%d").map_err(|_| anyhow!("malformed updated date"))
 }
 
 pub fn requires(s: &str) -> Result<Vec<u64>> {
-    // TODO
-    Ok(vec![])
+    validate_eip_list(s)
 }
 
 pub fn replaces(s: &str) -> Result<Vec<u64>> {
-    // TODO
-    Ok(vec![])
+    validate_eip_list(s)
 }
 
 pub fn superseded_by(s: &str) -> Result<Vec<u64>> {
-    // TODO
-    Ok(vec![])
+    validate_eip_list(s)
 }
 
 pub fn resolution(s: &str) -> Result<Url> {
     Ok(Url::parse(s)?)
+}
+
+fn validate_eip_list(s: &str) -> Result<Vec<u64>> {
+    let csv: Vec<&str> = s.split(",").collect();
+
+    let mut nums = vec![];
+
+    for (i, n) in csv.iter().enumerate() {
+        // the first element never has whitespace, so check trailing whitespace
+        // all other elements should have only one whitespace at n[0]
+        if (i == 0 && n.trim() != *n) || (i != 0 && n.len() > 2 && n.trim() != &n[1..]) {
+            return Err(anyhow!(
+                "comma-separated values must have spaces following each comma"
+            ));
+        }
+
+        match n.trim().parse() {
+            Ok(n) => {
+                if nums.len() != 0 && nums[nums.len() - 1] > n {
+                    return Err(anyhow!("numbers must be in ascending order"));
+                } else {
+                    nums.push(n);
+                }
+            }
+            Err(e) => return Err(anyhow!("malformed EIP number ({:?}): {:?}", n, e)),
+        }
+    }
+
+    Ok(nums)
 }
