@@ -128,3 +128,13 @@ fn preamble_requires() {
         "comma-separated values",
     );
 }
+
+#[test]
+fn preamble_superseeded_by() {
+    test_fixture("preamble-superseded-by-multiple.md", "draft: 1");
+}
+
+#[test]
+fn preamble_replaces() {
+    test_fixture("preamble-replaces-single.md", "draft: 1");
+}

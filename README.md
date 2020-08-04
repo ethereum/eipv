@@ -64,9 +64,9 @@ This tracks what `eipv` can validate.
     - [x] `review-period-end` is a date value 
     - [x] `created` is a date value 
     - [x] `updated` is a comma-separated list of date values
-    - [ ] `requires` is a comma-separated list of EIP numbers in ascending order
-    - [ ] `superseded-by` is a comma-separated list of EIP numbers in ascending order
-    - [ ] `replaces` is a comma-separated list of EIP numbers in ascending order
+    - [x] `requires` is a comma-separated list of EIP numbers in ascending order
+    - [x] `superseded-by` is a comma-separated list of EIP numbers in ascending order
+    - [x] `replaces` is a comma-separated list of EIP numbers in ascending order
     - [ ] `resolution` is a URL
 - [ ] EIP numbers listed as `required` exist
 - [ ] EIP numbers listed as `superseded-by` exist and list the current EIP in
