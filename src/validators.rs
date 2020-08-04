@@ -79,7 +79,7 @@ pub fn superseded_by(s: &str) -> Result<Vec<u64>> {
 }
 
 pub fn resolution(s: &str) -> Result<Url> {
-    Ok(Url::parse(s)?)
+    Ok(Url::parse(s).map_err(|_| anyhow!("resolution must be a URL"))?)
 }
 
 fn validate_eip_list(s: &str) -> Result<Vec<u64>> {

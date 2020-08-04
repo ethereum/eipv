@@ -138,3 +138,8 @@ fn preamble_superseeded_by() {
 fn preamble_replaces() {
     test_fixture("preamble-replaces-single.md", "draft: 1");
 }
+
+#[test]
+fn preamble_resolution() {
+    test_fixture("preamble-resolution-malformed.md", "must be a URL");
+}

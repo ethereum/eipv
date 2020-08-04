@@ -8,11 +8,7 @@ type: Standards Track
 category: Core
 created: 2020-01-01
 updated: 2020-01-01
-requires: 20, 1337, 2048
-superseded-by: 3000
-replaces: 3
-review-period-end: 2020-01-01
-resolution: https://example.com
+resolution: this is not a url
 ---
 
 ## Abstract
