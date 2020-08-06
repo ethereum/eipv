@@ -143,3 +143,27 @@ fn preamble_replaces() {
 fn preamble_resolution() {
     test_fixture("preamble-resolution-malformed.md", "must be a URL");
 }
+
+#[test]
+fn preamble_author() {
+    test_fixture(
+        "preamble-author-email-unmatched.md",
+        "unmatched email delimiter",
+    );
+    test_fixture(
+        "preamble-author-handle-unmatched.md",
+        "unmatched handle delimiter",
+    );
+    test_fixture(
+        "preamble-author-email-and-handle.md",
+        "can't include both an email and handle",
+    );
+    test_fixture(
+        "preamble-author-email-trailing-info.md",
+        "trailing information after email",
+    );
+    test_fixture(
+        "preamble-author-handle-trailing-info.md",
+        "trailing information after handle",
+    );
+}

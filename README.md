@@ -36,7 +36,7 @@ This tracks what `eipv` can validate.
     - [x] Each field is of the shape `{field}: {value}\n`
     - [x] `eip` is an unsigned integer
     - [x] `title` is a string whose length is less than 44 characters
-    - [ ] `author` is a comma-separated string of author information which has
+    - [x] `author` is a comma-separated string of author information which has
       three possible shapes:
         - Name only: `John A. Doe`
         - Name and email: `John A. Doe <john@doe.com>`

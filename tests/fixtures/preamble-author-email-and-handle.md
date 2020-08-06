@@ -1,7 +1,7 @@
 ---
 eip: 1
 title: A sample proposal
-author: John Doe (@johndoe), Jenny Doe <jenny.doe@example.com>
+author: John Doe (@johndoe) <john.doe@example.com>
 discussions-to: https://example.com
 status: Draft
 type: Standards Track

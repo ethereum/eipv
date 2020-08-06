@@ -33,9 +33,8 @@ pub fn title(s: &str) -> Result<String> {
     return Ok(s.to_string());
 }
 
-pub fn author(s: &str) -> Result<String> {
-    // TODO
-    return Ok(s.to_string());
+pub fn author(s: &str) -> Result<Vec<String>> {
+    validate_csv(s, validate_author)
 }
 
 pub fn discussions_to(s: &str) -> Result<Url> {
@@ -67,46 +66,105 @@ pub fn updated(s: &str) -> Result<NaiveDate> {
 }
 
 pub fn requires(s: &str) -> Result<Vec<u64>> {
-    validate_eip_list(s)
+    validate_csv(s, validate_eip)
 }
 
 pub fn replaces(s: &str) -> Result<Vec<u64>> {
-    validate_eip_list(s)
+    validate_csv(s, validate_eip)
 }
 
 pub fn superseded_by(s: &str) -> Result<Vec<u64>> {
-    validate_eip_list(s)
+    validate_csv(s, validate_eip)
 }
 
 pub fn resolution(s: &str) -> Result<Url> {
     Ok(Url::parse(s).map_err(|_| anyhow!("resolution must be a URL"))?)
 }
 
-fn validate_eip_list(s: &str) -> Result<Vec<u64>> {
+fn validate_csv<T, F: Fn(&mut Vec<T>, &str) -> Result<()>>(s: &str, f: F) -> Result<Vec<T>> {
     let csv: Vec<&str> = s.split(",").collect();
 
-    let mut nums = vec![];
+    let mut acc = vec![];
 
-    for (i, n) in csv.iter().enumerate() {
+    for (i, x) in csv.iter().enumerate() {
         // the first element never has whitespace, so check trailing whitespace
         // all other elements should have only one whitespace at n[0]
-        if (i == 0 && n.trim() != *n) || (i != 0 && n.len() > 2 && n.trim() != &n[1..]) {
+        if (i == 0 && x.trim() != *x) || (i != 0 && x.len() > 2 && x.trim() != &x[1..]) {
             return Err(anyhow!(
                 "comma-separated values must have spaces following each comma"
             ));
         }
 
-        match n.trim().parse() {
-            Ok(n) => {
-                if nums.len() != 0 && nums[nums.len() - 1] > n {
-                    return Err(anyhow!("numbers must be in ascending order"));
-                } else {
-                    nums.push(n);
-                }
+        f(&mut acc, x.trim())?;
+    }
+
+    Ok(acc)
+}
+
+fn validate_eip(acc: &mut Vec<u64>, s: &str) -> Result<()> {
+    match s.parse() {
+        Ok(n) => {
+            if acc.len() != 0 && acc[acc.len() - 1] > n {
+                Err(anyhow!("numbers must be in ascending order"))
+            } else {
+                acc.push(n);
+                Ok(())
             }
-            Err(e) => return Err(anyhow!("malformed EIP number ({:?}): {:?}", n, e)),
+        }
+        Err(e) => Err(anyhow!("malformed EIP number ({:?}): {:?}", s, e)),
+    }
+}
+
+fn validate_author<'a>(acc: &mut Vec<String>, s: &str) -> Result<()> {
+    let mut last_saw_space = false;
+
+    for c in s.chars() {
+        if c.is_whitespace() && last_saw_space {
+            return Err(anyhow!("extraneous spaces"));
+        } else if c.is_whitespace() {
+            last_saw_space = true;
+        } else {
+            last_saw_space = false;
         }
     }
 
-    Ok(nums)
+    let email_start = s.find('<');
+    let email_end = s.find('>');
+
+    let handle_start = s.find('(');
+    let handle_end = s.find(')');
+
+    if email_start.is_some() != email_end.is_some() {
+        return Err(anyhow!("unmatched email delimiter"));
+    }
+
+    if handle_start.is_some() != handle_end.is_some() {
+        return Err(anyhow!("unmatched handle delimiter"));
+    }
+
+    if email_start.is_some() == handle_start.is_some() {
+        return Err(anyhow!("author can't include both an email and handle"));
+    }
+
+    if email_start.is_some() {
+        let start = email_start.unwrap();
+        let end = email_end.unwrap();
+
+        if end != s.len() - 1 {
+            return Err(anyhow!("trailing information after email"));
+        }
+    }
+
+    if handle_start.is_some() {
+        let start = handle_start.unwrap();
+        let end = handle_end.unwrap();
+
+        if end != s.len() - 1 {
+            return Err(anyhow!("trailing information after handle"));
+        }
+    }
+
+    acc.push(s.to_string());
+
+    Ok(())
 }

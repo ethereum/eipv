@@ -26,7 +26,7 @@ impl FromStr for Eip {
 pub struct Preamble {
     pub eip: Option<u64>,
     pub title: Option<String>,
-    pub author: Option<String>,
+    pub author: Option<Vec<String>>,
     pub discussions_to: Option<Url>,
     pub status: Option<Status>,
     pub review_period_end: Option<NaiveDate>,
