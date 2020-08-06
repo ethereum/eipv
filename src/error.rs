@@ -86,7 +86,7 @@ impl Error {
             Self::MalformedUpdated => "malformed updated date",
             Self::MalformedResolution => "resolution must be a URL",
             Self::MissingSpaceAfterComma => {
-                "comma-separated values must have spaces following each comma"
+                "comma-separated values must have a single space following each comma"
             }
             Self::ExtraWhitespaceBeforeComma => {
                 "comma-separated values must not have spaces before a comma"

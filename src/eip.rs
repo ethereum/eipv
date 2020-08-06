@@ -87,7 +87,9 @@ impl Preamble {
             // sanitize value
             value = value.strip_prefix(":").unwrap();
 
-            if &value[1..] != value.trim_start() {
+            if value.len() - 1 > value.trim_start().len() {
+                errors.push(Error::ExtraWhitespace);
+            } else if &value[1..] != value.trim_start() {
                 errors.push(Error::MissingSpaceAfterColon);
             }
 
