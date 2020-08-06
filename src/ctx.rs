@@ -14,8 +14,4 @@ impl Context {
     pub fn should_exclude(&self, e: &Error) -> bool {
         self.exclude.contains(e)
     }
-
-    pub fn difference(&self, s: HashSet<Error>) -> HashSet<Error> {
-        s.difference(&self.exclude).cloned().collect()
-    }
 }

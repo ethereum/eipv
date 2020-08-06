@@ -39,16 +39,16 @@ pub struct Preamble {
 }
 
 macro_rules! insert {
-    ($preamble: expr, $validator: expr, $value: expr, $errors: ident, $ctx: expr) => {{
-        let res = $validator($value);
+    ($preamble: expr, $validator: expr, $t: expr) => {{
+        let res = $validator($t.0);
 
         match res {
             Ok(v) => $preamble = Some(Ok(v)),
             Err(e) => {
                 $preamble = Some(Err((anyhow!(""))));
 
-                if !$ctx.should_exclude(&e) {
-                    $errors.push(e);
+                if !$t.2.should_exclude(&e) {
+                    $t.1.push(e);
                 }
             }
         }
@@ -88,45 +88,26 @@ impl Preamble {
             let key = key.trim();
             let value = value.trim();
 
+            // tuple to simplify macro calls
+            let t = (value, &mut errors, &ctx);
+
             match key {
-                "eip" => insert!(preamble.eip, validators::eip, value, errors, ctx),
-                "title" => insert!(preamble.title, validators::title, value, errors, ctx),
-                "author" => insert!(preamble.author, validators::author, value, errors, ctx),
-                "discussions-to" => insert!(
-                    preamble.discussions_to,
-                    validators::discussions_to,
-                    value,
-                    errors,
-                    ctx
-                ),
-                "status" => insert!(preamble.status, validators::status, value, errors, ctx),
-                "review-period-end" => insert!(
-                    preamble.review_period_end,
-                    validators::review_period_end,
-                    value,
-                    errors,
-                    ctx
-                ),
-                "type" => insert!(preamble.ty, validators::ty, value, errors, ctx),
-                "category" => insert!(preamble.category, validators::category, value, errors, ctx),
-                "created" => insert!(preamble.created, validators::created, value, errors, ctx),
-                "updated" => insert!(preamble.updated, validators::updated, value, errors, ctx),
-                "requires" => insert!(preamble.requires, validators::requires, value, errors, ctx),
-                "replaces" => insert!(preamble.replaces, validators::replaces, value, errors, ctx),
-                "superseded-by" => insert!(
-                    preamble.superseded_by,
-                    validators::superseded_by,
-                    value,
-                    errors,
-                    ctx
-                ),
-                "resolution" => insert!(
-                    preamble.resolution,
-                    validators::resolution,
-                    value,
-                    errors,
-                    ctx
-                ),
+                "eip" => insert!(preamble.eip, validators::eip, t),
+                "title" => insert!(preamble.title, validators::title, t),
+                "author" => insert!(preamble.author, validators::author, t),
+                "discussions-to" => insert!(preamble.discussions_to, validators::discussions_to, t),
+                "status" => insert!(preamble.status, validators::status, t),
+                "review-period-end" => {
+                    insert!(preamble.review_period_end, validators::review_period_end, t)
+                }
+                "type" => insert!(preamble.ty, validators::ty, t),
+                "category" => insert!(preamble.category, validators::category, t),
+                "created" => insert!(preamble.created, validators::created, t),
+                "updated" => insert!(preamble.updated, validators::updated, t),
+                "requires" => insert!(preamble.requires, validators::requires, t),
+                "replaces" => insert!(preamble.replaces, validators::replaces, t),
+                "superseded-by" => insert!(preamble.superseded_by, validators::superseded_by, t),
+                "resolution" => insert!(preamble.resolution, validators::resolution, t),
                 _ => errors.push(Error::UnknownPreambleField),
             }
         }
