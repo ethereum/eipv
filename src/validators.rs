@@ -122,7 +122,7 @@ fn validate_author<'a>(acc: &mut Vec<String>, s: &str) -> Result<()> {
         return Err(Error::UnmatchedHandleDelimiter);
     }
 
-    if email_start.is_some() == handle_start.is_some() {
+    if email_start.is_some() == true && handle_start.is_some() == true {
         return Err(Error::AuthorHasEmailAndHandle);
     }
 

@@ -7,7 +7,9 @@ pub enum Error {
     // generic errors
     MalformedField,
     MissingSpaceAfterColon,
+    LeadingWhitespace,
     ExtraWhitespace,
+    TrailingWhitespace,
     UnknownPreambleField,
 
     // missing field
@@ -45,6 +47,7 @@ impl Error {
     pub fn from_str(s: &str) -> anyhow::Result<Self> {
         match s {
             "title_max_length" => Ok(Self::TitleExceedsMaxLength),
+            "missing_discussions_to" => Ok(Self::MissingDiscussionsToField),
             _ => Err(anyhow!("unknown validator")),
         }
     }
@@ -55,6 +58,8 @@ impl Error {
             Self::MalformedField => "malformed field",
             Self::MissingSpaceAfterColon => "missing a `space` between colon and value",
             Self::ExtraWhitespace => "extra whitespace",
+            Self::TrailingWhitespace => "trailing whitespace",
+            Self::LeadingWhitespace => "leading whitespace",
             Self::UnknownPreambleField => "unknown preamble field",
 
             // missing required fields

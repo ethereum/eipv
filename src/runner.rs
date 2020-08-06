@@ -71,8 +71,13 @@ impl<'a> Runner<'a> {
     }
 
     fn validate_single<P: AsRef<std::path::Path> + Clone>(&mut self, path: P) {
-        let res: Result<Eip, Vec<Error>> =
-            Eip::from_str(&self.ctx, &fs::read_to_string(path.clone()).unwrap());
+        let res: Result<Eip, Vec<Error>> = Eip::from_str(
+            &self.ctx,
+            &fs::read_to_string(path.clone())
+                .unwrap()
+                // normalize newlines
+                .replace("\r\n", "\n"),
+        );
         self.count(
             res,
             path.as_ref()

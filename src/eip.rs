@@ -69,24 +69,35 @@ impl Preamble {
                 continue;
             }
 
-            let (key, mut value) = line.split_at(split_idx.unwrap());
+            let (mut key, mut value) = line.split_at(split_idx.unwrap());
+
+            // sanitize key
+            if key != key.trim_start() {
+                errors.push(Error::LeadingWhitespace);
+            }
+
+            key = key.trim_start();
+
+            if key != key.trim_end() {
+                errors.push(Error::ExtraWhitespace);
+            }
+
+            key = key.trim_end();
+
+            // sanitize value
             value = value.strip_prefix(":").unwrap();
 
-            if &value[1..] != value.trim() {
+            if &value[1..] != value.trim_start() {
                 errors.push(Error::MissingSpaceAfterColon);
             }
 
-            value = &value[1..];
+            value = value.trim_start();
 
-            if key != key.trim() {
-                errors.push(Error::ExtraWhitespace);
-            }
-            if value != value.trim() {
-                errors.push(Error::ExtraWhitespace);
+            if value != value.trim_end() {
+                errors.push(Error::TrailingWhitespace);
             }
 
-            let key = key.trim();
-            let value = value.trim();
+            value = value.trim_end();
 
             // tuple to simplify macro calls
             let t = (value, &mut errors, &ctx);
@@ -112,31 +123,36 @@ impl Preamble {
             }
         }
 
-        if preamble.eip.is_none() {
+        if preamble.eip.is_none() && !ctx.should_exclude(&Error::MissingEipField) {
             errors.push(Error::MissingEipField);
         }
 
-        if preamble.title.is_none() {
+        if preamble.title.is_none() && !ctx.should_exclude(&Error::MissingTitleField) {
             errors.push(Error::MissingTitleField);
         }
 
-        if preamble.author.is_none() {
+        if preamble.author.is_none() && !ctx.should_exclude(&Error::MissingAuthorField) {
             errors.push(Error::MissingAuthorField);
         }
 
-        if preamble.discussions_to.is_none() {
+        if preamble.discussions_to.is_none()
+            && !ctx.should_exclude(&Error::MissingDiscussionsToField)
+        {
             errors.push(Error::MissingDiscussionsToField);
         }
 
-        if preamble.status.is_none() {
+        if preamble.status.is_none() && !ctx.should_exclude(&Error::MissingStatusField) {
             errors.push(Error::MissingStatusField);
         }
 
         if let Some(Ok(ty)) = preamble.ty {
-            if ty == Type::Standards && preamble.category.is_none() {
+            if ty == Type::Standards
+                && preamble.category.is_none()
+                && !ctx.should_exclude(&Error::MissingCategoryField)
+            {
                 errors.push(Error::MissingCategoryField);
             }
-        } else {
+        } else if !ctx.should_exclude(&Error::MissingTypeField) {
             errors.push(Error::MissingTypeField);
         }
 
