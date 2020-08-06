@@ -3,15 +3,15 @@ use std::collections::HashSet;
 
 #[derive(Debug, Default)]
 pub struct Context {
-    exclude: HashSet<Error>,
+    ignore: HashSet<Error>,
 }
 
 impl Context {
-    pub fn exclude(&mut self, e: Error) {
-        self.exclude.insert(e);
+    pub fn ignore(&mut self, e: Error) {
+        self.ignore.insert(e);
     }
 
-    pub fn should_exclude(&self, e: &Error) -> bool {
-        self.exclude.contains(e)
+    pub fn should_ignore(&self, e: &Error) -> bool {
+        self.ignore.contains(e)
     }
 }

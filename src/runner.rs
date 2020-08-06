@@ -39,13 +39,13 @@ pub struct Runner<'a> {
 }
 
 impl<'a> Runner<'a> {
-    pub fn new(path: &'a str, exclude: Option<&'a str>) -> Result<Self> {
+    pub fn new(path: &'a str, ignore: Option<&'a str>) -> Result<Self> {
         let mut ret = Self::default();
         ret.path = path;
 
-        if let Some(exclude) = exclude {
-            for e in exclude.split(',') {
-                Error::from_str(e).and_then(|v| Ok(ret.ctx.exclude(v)))?;
+        if let Some(ignore) = ignore {
+            for i in ignore.split(',') {
+                Error::from_str(i).and_then(|v| Ok(ret.ctx.ignore(v)))?;
             }
         }
 

@@ -47,7 +47,7 @@ macro_rules! insert {
             Err(e) => {
                 $preamble = Some(Err((anyhow!(""))));
 
-                if !$t.2.should_exclude(&e) {
+                if !$t.2.should_ignore(&e) {
                     $t.1.push(e);
                 }
             }
@@ -123,36 +123,36 @@ impl Preamble {
             }
         }
 
-        if preamble.eip.is_none() && !ctx.should_exclude(&Error::MissingEipField) {
+        if preamble.eip.is_none() && !ctx.should_ignore(&Error::MissingEipField) {
             errors.push(Error::MissingEipField);
         }
 
-        if preamble.title.is_none() && !ctx.should_exclude(&Error::MissingTitleField) {
+        if preamble.title.is_none() && !ctx.should_ignore(&Error::MissingTitleField) {
             errors.push(Error::MissingTitleField);
         }
 
-        if preamble.author.is_none() && !ctx.should_exclude(&Error::MissingAuthorField) {
+        if preamble.author.is_none() && !ctx.should_ignore(&Error::MissingAuthorField) {
             errors.push(Error::MissingAuthorField);
         }
 
         if preamble.discussions_to.is_none()
-            && !ctx.should_exclude(&Error::MissingDiscussionsToField)
+            && !ctx.should_ignore(&Error::MissingDiscussionsToField)
         {
             errors.push(Error::MissingDiscussionsToField);
         }
 
-        if preamble.status.is_none() && !ctx.should_exclude(&Error::MissingStatusField) {
+        if preamble.status.is_none() && !ctx.should_ignore(&Error::MissingStatusField) {
             errors.push(Error::MissingStatusField);
         }
 
         if let Some(Ok(ty)) = preamble.ty {
             if ty == Type::Standards
                 && preamble.category.is_none()
-                && !ctx.should_exclude(&Error::MissingCategoryField)
+                && !ctx.should_ignore(&Error::MissingCategoryField)
             {
                 errors.push(Error::MissingCategoryField);
             }
-        } else if !ctx.should_exclude(&Error::MissingTypeField) {
+        } else if !ctx.should_ignore(&Error::MissingTypeField) {
             errors.push(Error::MissingTypeField);
         }
 

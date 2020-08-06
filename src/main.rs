@@ -19,17 +19,17 @@ fn main() {
                 .about("Directory of EIPs or path to a specific EIP"),
         )
         .arg(
-            Arg::with_name("exclude")
+            Arg::with_name("ignore")
                 .takes_value(true)
-                .short('e')
-                .long("exclude")
-                .about("Run the validation suite w/o the specified checks."),
+                .short('i')
+                .long("ignore")
+                .about("Run the validation suite, ignoring the specified errors."),
         )
         .get_matches();
 
     let runner = Runner::new(
         matches.value_of("path").unwrap(),
-        matches.value_of("exclude"),
+        matches.value_of("ignore"),
     );
 
     match runner {
