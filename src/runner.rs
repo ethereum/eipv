@@ -39,13 +39,19 @@ pub struct Runner<'a> {
 }
 
 impl<'a> Runner<'a> {
-    pub fn new(path: &'a str, ignore: Option<&'a str>) -> Result<Self> {
+    pub fn new(path: &'a str, ignore: Option<&'a str>, skip: Option<&'a str>) -> Result<Self> {
         let mut ret = Self::default();
         ret.path = path;
 
         if let Some(ignore) = ignore {
             for i in ignore.split(',') {
                 Error::from_str(i).and_then(|v| Ok(ret.ctx.ignore(v)))?;
+            }
+        }
+
+        if let Some(skip) = skip {
+            for s in skip.split(',') {
+                ret.ctx.skip(s);
             }
         }
 
@@ -71,22 +77,27 @@ impl<'a> Runner<'a> {
     }
 
     fn validate_single<P: AsRef<std::path::Path> + Clone>(&mut self, path: P) {
-        let res: Result<Eip, Vec<Error>> = Eip::from_str(
-            &self.ctx,
-            &fs::read_to_string(path.clone())
-                .unwrap()
-                // normalize newlines
-                .replace("\r\n", "\n"),
-        );
-        self.count(
-            res,
-            path.as_ref()
-                .file_name()
-                .unwrap()
-                .to_str()
-                .unwrap()
-                .to_string(),
-        );
+        if !self
+            .ctx
+            .should_skip(path.as_ref().file_name().unwrap().to_str().unwrap())
+        {
+            let res: Result<Eip, Vec<Error>> = Eip::from_str(
+                &self.ctx,
+                &fs::read_to_string(path.clone())
+                    .unwrap()
+                    // normalize newlines
+                    .replace("\r\n", "\n"),
+            );
+            self.count(
+                res,
+                path.as_ref()
+                    .file_name()
+                    .unwrap()
+                    .to_str()
+                    .unwrap()
+                    .to_string(),
+            );
+        }
     }
 
     fn count(&mut self, res: Result<Eip, Vec<Error>>, file_name: String) {

@@ -25,11 +25,19 @@ fn main() {
                 .long("ignore")
                 .about("Run the validation suite, ignoring the specified errors."),
         )
+        .arg(
+            Arg::with_name("skip")
+                .takes_value(true)
+                .short('s')
+                .long("skip")
+                .about("Skip validation of the specified files."),
+        )
         .get_matches();
 
     let runner = Runner::new(
         matches.value_of("path").unwrap(),
         matches.value_of("ignore"),
+        matches.value_of("skip"),
     );
 
     match runner {
