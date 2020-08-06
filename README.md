@@ -90,4 +90,4 @@ This tracks what `eipv` can validate.
   outside of code snippets
 - [ ] File name is of form `eip-N.md`, where `N` coresponds to the EIP's assigned number
 - [ ] URLs to other EIPs are relative links
-- [ ] No trailing whitespace in preamble
+- [x] No trailing whitespace in preamble

@@ -1,7 +1,12 @@
 [package]
 name = "eipv"
-version = "0.0.0"
-authors = ["Matt Garnett <matt.garnett@me.com>"]
+version = "0.0.1"
+authors = ["lightclient <crates@garnett.dev>"]
+license = "MIT OR Apache-2.0"
+description = "Ethereum Improvement Proposal validator"
+repository = "https://github.com/lightclient/eipv"
+categories = ["command-line-utilities"]
+readme = "README.md"
 edition = "2018"
 
 [dependencies]
