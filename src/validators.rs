@@ -83,7 +83,8 @@ fn validate_csv<T, F: Fn(&mut Vec<T>, &str) -> Result<()>>(s: &str, f: F) -> Res
     for (i, x) in csv.iter().enumerate() {
         // the first element never has whitespace, so check trailing whitespace
         // all other elements should have only one whitespace at n[0]
-        if (i == 0 && x.trim() != *x) || (i != 0 && x.len() > 2 && x.trim_start() != &x[1..]) {
+        if (i == 0 && x.trim_start() != *x) || (i != 0 && x.len() > 2 && x.trim_start() != &x[1..])
+        {
             return Err(Error::MissingSpaceAfterComma);
         }
 
