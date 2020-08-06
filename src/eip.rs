@@ -31,7 +31,7 @@ pub struct Preamble {
     pub ty: Option<Result<Type>>,
     pub category: Option<Result<Category>>,
     pub created: Option<Result<NaiveDate>>,
-    pub updated: Option<Result<NaiveDate>>,
+    pub updated: Option<Result<Vec<NaiveDate>>>,
     pub requires: Option<Result<Vec<u64>>>,
     pub replaces: Option<Result<Vec<u64>>>,
     pub superseded_by: Option<Result<Vec<u64>>>,
