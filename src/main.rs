@@ -7,6 +7,7 @@ mod validators;
 
 use clap::{App, Arg};
 use runner::Runner;
+use std::process::exit;
 
 fn main() {
     let matches = App::new("eipv")
@@ -44,9 +45,14 @@ fn main() {
         Ok(mut r) => {
             r.validate();
             println!("{}", r);
+
+            if r.invalid() != 0 {
+                exit(1)
+            }
         }
         Err(e) => {
             println!("{}", e);
+            exit(1)
         }
     }
 }
