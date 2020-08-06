@@ -35,6 +35,7 @@ pub enum Error {
     MalformedUpdated,
     MalformedResolution,
     MissingSpaceAfterComma,
+    ExtraWhitespaceBeforeComma,
     OutOfOrderEips,
     UnmatchedEmailDelimiter,
     UnmatchedHandleDelimiter,
@@ -86,6 +87,9 @@ impl Error {
             Self::MalformedResolution => "resolution must be a URL",
             Self::MissingSpaceAfterComma => {
                 "comma-separated values must have spaces following each comma"
+            }
+            Self::ExtraWhitespaceBeforeComma => {
+                "comma-separated values must not have spaces before a comma"
             }
             Self::OutOfOrderEips => "numbers must be in ascending order",
             Self::UnmatchedEmailDelimiter => "unmatched email delimiter",
