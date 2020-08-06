@@ -24,28 +24,32 @@ impl FromStr for Eip {
 
 #[derive(Debug, Default)]
 pub struct Preamble {
-    pub eip: Option<u64>,
-    pub title: Option<String>,
-    pub author: Option<Vec<String>>,
-    pub discussions_to: Option<Url>,
-    pub status: Option<Status>,
-    pub review_period_end: Option<NaiveDate>,
-    pub ty: Option<Type>,
-    pub category: Option<Category>,
-    pub created: Option<NaiveDate>,
-    pub updated: Option<NaiveDate>,
-    pub requires: Option<Vec<u64>>,
-    pub replaces: Option<Vec<u64>>,
-    pub superseded_by: Option<Vec<u64>>,
-    pub resolution: Option<Url>,
+    pub eip: Option<Result<u64>>,
+    pub title: Option<Result<String>>,
+    pub author: Option<Result<Vec<String>>>,
+    pub discussions_to: Option<Result<Url>>,
+    pub status: Option<Result<Status>>,
+    pub review_period_end: Option<Result<NaiveDate>>,
+    pub ty: Option<Result<Type>>,
+    pub category: Option<Result<Category>>,
+    pub created: Option<Result<NaiveDate>>,
+    pub updated: Option<Result<NaiveDate>>,
+    pub requires: Option<Result<Vec<u64>>>,
+    pub replaces: Option<Result<Vec<u64>>>,
+    pub superseded_by: Option<Result<Vec<u64>>>,
+    pub resolution: Option<Result<Url>>,
 }
 
 macro_rules! insert {
     ($preamble: expr, $validator: expr, $value: expr, $errors: ident) => {{
         let res = $validator($value);
+
         match res {
-            Ok(v) => $preamble = Some(v),
-            Err(e) => $errors.push(e),
+            Ok(v) => $preamble = Some(Ok(v)),
+            Err(e) => {
+                $preamble = Some(Err((anyhow!(""))));
+                $errors.push(e);
+            }
         }
     }};
 }
@@ -137,7 +141,7 @@ impl Preamble {
             errors.push(anyhow!("missing status field in preamble"));
         }
 
-        if let Some(ty) = preamble.ty {
+        if let Some(Ok(ty)) = preamble.ty {
             if ty == Type::Standards && preamble.category.is_none() {
                 errors.push(anyhow!("missing category field in preamble"));
             }

@@ -79,30 +79,30 @@ impl<'a> Runner<'a> {
                 self.valid += 1;
 
                 match eip.preamble.status {
-                    Some(Status::Draft) => self.draft += 1,
-                    Some(Status::LastCall) => self.last_call += 1,
-                    Some(Status::Accepted) => self.accepted += 1,
-                    Some(Status::Final) => self.final_ += 1,
-                    Some(Status::Active) => self.active += 1,
-                    Some(Status::Abandoned) => self.abandoned += 1,
-                    Some(Status::Superseded) => self.superseded += 1,
-                    Some(Status::Rejected) => self.rejected += 1,
-                    None => (),
+                    Some(Ok(Status::Draft)) => self.draft += 1,
+                    Some(Ok(Status::LastCall)) => self.last_call += 1,
+                    Some(Ok(Status::Accepted)) => self.accepted += 1,
+                    Some(Ok(Status::Final)) => self.final_ += 1,
+                    Some(Ok(Status::Active)) => self.active += 1,
+                    Some(Ok(Status::Abandoned)) => self.abandoned += 1,
+                    Some(Ok(Status::Superseded)) => self.superseded += 1,
+                    Some(Ok(Status::Rejected)) => self.rejected += 1,
+                    _ => (),
                 }
 
                 match eip.preamble.ty {
-                    Some(Type::Standards) => self.standards += 1,
-                    Some(Type::Informational) => self.informational += 1,
-                    Some(Type::Meta) => self.meta += 1,
-                    None => (),
+                    Some(Ok(Type::Standards)) => self.standards += 1,
+                    Some(Ok(Type::Informational)) => self.informational += 1,
+                    Some(Ok(Type::Meta)) => self.meta += 1,
+                    _ => (),
                 }
 
                 match eip.preamble.category {
-                    Some(Category::Core) => self.core += 1,
-                    Some(Category::Networking) => self.networking += 1,
-                    Some(Category::Interface) => self.interface += 1,
-                    Some(Category::Erc) => self.erc += 1,
-                    None => (),
+                    Some(Ok(Category::Core)) => self.core += 1,
+                    Some(Ok(Category::Networking)) => self.networking += 1,
+                    Some(Ok(Category::Interface)) => self.interface += 1,
+                    Some(Ok(Category::Erc)) => self.erc += 1,
+                    _ => (),
                 }
             }
             Err(e) => {

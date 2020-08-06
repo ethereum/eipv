@@ -1,6 +1,6 @@
 mod utils;
 
-use utils::test_fixture;
+use utils::{test_fixture, test_fixture_exclude_output};
 
 #[test]
 fn valid() {
@@ -166,4 +166,9 @@ fn preamble_author() {
         "preamble-author-handle-trailing-info.md",
         "trailing information after handle",
     );
+}
+
+#[test]
+fn preamble_only_error_not_missing_field() {
+    test_fixture_exclude_output("preamble-title-too-long.md", "missing");
 }
