@@ -55,8 +55,16 @@ pub fn category(s: &str) -> Result<Category> {
 pub fn created(s: &str) -> Result<NaiveDate> {
     NaiveDate::parse_from_str(s, "%Y-%m-%d").map_err(|_| Error::MalformedCreated)
 }
-pub fn updated(s: &str) -> Result<NaiveDate> {
-    NaiveDate::parse_from_str(s, "%Y-%m-%d").map_err(|_| Error::MalformedUpdated)
+pub fn updated(s: &str) -> Result<Vec<NaiveDate>> {
+    validate_csv(s, |acc, d| {
+        match NaiveDate::parse_from_str(d, "%Y-%m-%d").map_err(|_| Error::MalformedUpdated) {
+            Ok(d) => {
+                acc.push(d);
+                Ok(())
+            }
+            Err(e) => Err(e),
+        }
+    })
 }
 
 pub fn requires(s: &str) -> Result<Vec<u64>> {
