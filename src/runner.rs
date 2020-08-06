@@ -58,6 +58,10 @@ impl<'a> Runner<'a> {
         Ok(ret)
     }
 
+    pub fn invalid(&self) -> u64 {
+        self.invalid
+    }
+
     pub fn validate(&mut self) {
         match fs::metadata(self.path) {
             Ok(m) => {
