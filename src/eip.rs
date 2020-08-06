@@ -1,8 +1,8 @@
-use crate::validators;
+use crate::error::Error;
+use crate::{ctx::Context, validators};
 
-use anyhow::{anyhow, Error, Result};
+use anyhow::{anyhow, Result};
 use chrono::NaiveDate;
-use std::str::FromStr;
 use url::Url;
 
 #[derive(Debug)]
@@ -11,11 +11,9 @@ pub struct Eip {
     pub body: String,
 }
 
-impl FromStr for Eip {
-    type Err = Vec<Error>;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match Preamble::from_str(s) {
+impl Eip {
+    pub fn from_str(ctx: &Context, s: &str) -> Result<Self, Vec<Error>> {
+        match Preamble::from_str(ctx, s) {
             Ok((preamble, body)) => Ok(Eip { preamble, body }),
             Err(e) => Err(e),
         }
@@ -41,21 +39,24 @@ pub struct Preamble {
 }
 
 macro_rules! insert {
-    ($preamble: expr, $validator: expr, $value: expr, $errors: ident) => {{
+    ($preamble: expr, $validator: expr, $value: expr, $errors: ident, $ctx: expr) => {{
         let res = $validator($value);
 
         match res {
             Ok(v) => $preamble = Some(Ok(v)),
             Err(e) => {
                 $preamble = Some(Err((anyhow!(""))));
-                $errors.push(e);
+
+                if !$ctx.should_exclude(&e) {
+                    $errors.push(e);
+                }
             }
         }
     }};
 }
 
 impl Preamble {
-    pub fn from_str(s: &str) -> Result<(Self, String), Vec<Error>> {
+    pub fn from_str(ctx: &Context, s: &str) -> Result<(Self, String), Vec<Error>> {
         let mut preamble = Preamble::default();
         let mut errors: Vec<Error> = vec![];
 
@@ -64,7 +65,7 @@ impl Preamble {
         for (i, line) in block.lines().enumerate() {
             let split_idx = line.find(":");
             if split_idx.is_none() {
-                errors.push(anyhow!("malformed key-value pair: {}", line));
+                errors.push(Error::MalformedField);
                 continue;
             }
 
@@ -72,81 +73,90 @@ impl Preamble {
             value = value.strip_prefix(":").unwrap();
 
             if &value[1..] != value.trim() {
-                errors.push(anyhow!("missing a `space` between colon and value",));
+                errors.push(Error::MissingSpaceAfterColon);
             }
 
             value = &value[1..];
 
             if key != key.trim() {
-                errors.push(anyhow!("extra whitespace"));
+                errors.push(Error::ExtraWhitespace);
             }
             if value != value.trim() {
-                errors.push(anyhow!("extra whitespace"));
+                errors.push(Error::ExtraWhitespace);
             }
 
             let key = key.trim();
             let value = value.trim();
 
             match key {
-                "eip" => insert!(preamble.eip, validators::eip, value, errors),
-                "title" => insert!(preamble.title, validators::title, value, errors),
-                "author" => insert!(preamble.author, validators::author, value, errors),
+                "eip" => insert!(preamble.eip, validators::eip, value, errors, ctx),
+                "title" => insert!(preamble.title, validators::title, value, errors, ctx),
+                "author" => insert!(preamble.author, validators::author, value, errors, ctx),
                 "discussions-to" => insert!(
                     preamble.discussions_to,
                     validators::discussions_to,
                     value,
-                    errors
+                    errors,
+                    ctx
                 ),
-                "status" => insert!(preamble.status, validators::status, value, errors),
+                "status" => insert!(preamble.status, validators::status, value, errors, ctx),
                 "review-period-end" => insert!(
                     preamble.review_period_end,
                     validators::review_period_end,
                     value,
-                    errors
+                    errors,
+                    ctx
                 ),
-                "type" => insert!(preamble.ty, validators::ty, value, errors),
-                "category" => insert!(preamble.category, validators::category, value, errors),
-                "created" => insert!(preamble.created, validators::created, value, errors),
-                "updated" => insert!(preamble.updated, validators::updated, value, errors),
-                "requires" => insert!(preamble.requires, validators::requires, value, errors),
-                "replaces" => insert!(preamble.replaces, validators::replaces, value, errors),
+                "type" => insert!(preamble.ty, validators::ty, value, errors, ctx),
+                "category" => insert!(preamble.category, validators::category, value, errors, ctx),
+                "created" => insert!(preamble.created, validators::created, value, errors, ctx),
+                "updated" => insert!(preamble.updated, validators::updated, value, errors, ctx),
+                "requires" => insert!(preamble.requires, validators::requires, value, errors, ctx),
+                "replaces" => insert!(preamble.replaces, validators::replaces, value, errors, ctx),
                 "superseded-by" => insert!(
                     preamble.superseded_by,
                     validators::superseded_by,
                     value,
-                    errors
+                    errors,
+                    ctx
                 ),
-                "resolution" => insert!(preamble.resolution, validators::resolution, value, errors),
-                _ => errors.push(anyhow!("unknown preamble key: {}", key)),
+                "resolution" => insert!(
+                    preamble.resolution,
+                    validators::resolution,
+                    value,
+                    errors,
+                    ctx
+                ),
+                _ => errors.push(Error::UnknownPreambleField),
             }
         }
 
         if preamble.eip.is_none() {
-            errors.push(anyhow!("missing eip field in preamble"));
+            errors.push(Error::MissingEipField);
         }
 
         if preamble.title.is_none() {
-            errors.push(anyhow!("missing title field in preamble"));
+            errors.push(Error::MissingTitleField);
         }
 
         if preamble.author.is_none() {
-            errors.push(anyhow!("missing author field in preamble"));
+            errors.push(Error::MissingAuthorField);
         }
 
         if preamble.discussions_to.is_none() {
-            errors.push(anyhow!("missing discussions-to field in preamble"));
+            errors.push(Error::MissingDiscussionsToField);
         }
 
         if preamble.status.is_none() {
-            errors.push(anyhow!("missing status field in preamble"));
+            errors.push(Error::MissingStatusField);
         }
 
         if let Some(Ok(ty)) = preamble.ty {
             if ty == Type::Standards && preamble.category.is_none() {
-                errors.push(anyhow!("missing category field in preamble"));
+                errors.push(Error::MissingCategoryField);
             }
         } else {
-            errors.push(anyhow!("missing type field in preamble"));
+            errors.push(Error::MissingTypeField);
         }
 
         match errors.is_empty() {
@@ -169,7 +179,7 @@ pub enum Status {
 }
 
 impl Status {
-    pub fn from_str(s: &str) -> Result<Self> {
+    pub fn from_str(s: &str) -> std::result::Result<Self, Error> {
         match s {
             "Draft" => Ok(Self::Draft),
             "Last Call" => Ok(Self::LastCall),
@@ -179,7 +189,7 @@ impl Status {
             "Abandoned" => Ok(Self::Abandoned),
             "Superseded" => Ok(Self::Superseded),
             "Rejected" => Ok(Self::Rejected),
-            _ => Err(anyhow!("unknown status type: {}", s)),
+            _ => Err(Error::UnknownStatus),
         }
     }
 }
@@ -192,12 +202,12 @@ pub enum Type {
 }
 
 impl Type {
-    pub fn from_str(s: &str) -> Result<Self> {
+    pub fn from_str(s: &str) -> std::result::Result<Self, Error> {
         match s {
             "Standards Track" => Ok(Self::Standards),
             "Informational" => Ok(Self::Informational),
             "Meta" => Ok(Self::Meta),
-            _ => Err(anyhow!("unknown type: {}", s)),
+            _ => Err(Error::UnknownType),
         }
     }
 }
@@ -211,13 +221,13 @@ pub enum Category {
 }
 
 impl Category {
-    pub fn from_str(s: &str) -> Result<Self> {
+    pub fn from_str(s: &str) -> std::result::Result<Self, Error> {
         match s {
             "Core" => Ok(Self::Core),
             "Networking" => Ok(Self::Networking),
             "Interface" => Ok(Self::Interface),
             "ERC" => Ok(Self::Erc),
-            _ => Err(anyhow!("unknown category: {}", s)),
+            _ => Err(Error::UnknownCategory),
         }
     }
 }

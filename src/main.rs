@@ -1,5 +1,7 @@
 #![allow(unused_variables)]
+mod ctx;
 mod eip;
+mod error;
 mod runner;
 mod validators;
 
@@ -16,10 +18,27 @@ fn main() {
                 .required(true)
                 .about("Directory of EIPs or path to a specific EIP"),
         )
+        .arg(
+            Arg::with_name("exclude")
+                .takes_value(true)
+                .short('e')
+                .long("exclude")
+                .about("Run the validation suite w/o the specified checks."),
+        )
         .get_matches();
 
-    let mut runner = Runner::new(matches.value_of("path").unwrap());
-    runner.validate();
+    let runner = Runner::new(
+        matches.value_of("path").unwrap(),
+        matches.value_of("exclude"),
+    );
 
-    println!("{}", runner);
+    match runner {
+        Ok(mut r) => {
+            r.validate();
+            println!("{}", r);
+        }
+        Err(e) => {
+            println!("{}", e);
+        }
+    }
 }

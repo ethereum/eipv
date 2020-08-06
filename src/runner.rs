@@ -1,12 +1,15 @@
+use crate::ctx::Context;
 use crate::eip::{Category, Eip, Status, Type};
+use crate::error::Error;
 
-use anyhow::Error;
+use anyhow::Result;
 use std::fmt;
 use std::fs;
 
 #[derive(Debug, Default)]
 pub struct Runner<'a> {
     path: &'a str,
+    ctx: Context,
     errors: Vec<(String, Vec<Error>)>,
 
     // validity count
@@ -36,10 +39,17 @@ pub struct Runner<'a> {
 }
 
 impl<'a> Runner<'a> {
-    pub fn new(path: &'a str) -> Self {
+    pub fn new(path: &'a str, exclude: Option<&'a str>) -> Result<Self> {
         let mut ret = Self::default();
         ret.path = path;
-        ret
+
+        if let Some(exclude) = exclude {
+            for e in exclude.split(',') {
+                Error::from_str(e).and_then(|v| Ok(ret.ctx.exclude(v)))?;
+            }
+        }
+
+        Ok(ret)
     }
 
     pub fn validate(&mut self) {
@@ -61,7 +71,8 @@ impl<'a> Runner<'a> {
     }
 
     fn validate_single<P: AsRef<std::path::Path> + Clone>(&mut self, path: P) {
-        let res: Result<Eip, Vec<Error>> = fs::read_to_string(path.clone()).unwrap().parse();
+        let res: Result<Eip, Vec<Error>> =
+            Eip::from_str(&self.ctx, &fs::read_to_string(path.clone()).unwrap());
         self.count(
             res,
             path.as_ref()
@@ -118,7 +129,7 @@ impl<'a> fmt::Display for Runner<'a> {
         for error in self.errors.iter() {
             let eip = error.0.clone();
             for error in error.1.iter() {
-                write!(f, "{}:\t{}\n", eip, error)?;
+                write!(f, "{}:\t{}\n", eip, error.human_readable())?;
             }
         }
 

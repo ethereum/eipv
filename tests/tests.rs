@@ -19,7 +19,7 @@ fn preamble_end_malformed() {
 
 #[test]
 fn preamble_has_required_fields() {
-    test_fixture("preamble-missing-eip.md", "missing eip");
+    test_fixture("preamble-missing-eip.md", "missing EIP");
     test_fixture("preamble-missing-title.md", "missing title");
     test_fixture("preamble-missing-author.md", "missing author");
     test_fixture(
@@ -34,12 +34,12 @@ fn preamble_has_required_fields() {
 
 #[test]
 fn preamble_unknown_field() {
-    test_fixture("preamble-unknown-field.md", "unknown preamble key: unknown");
+    test_fixture("preamble-unknown-field.md", "unknown preamble field");
 }
 
 #[test]
 fn preamble_malformed_field() {
-    test_fixture("preamble-malformed-field.md", "malformed key-value pair");
+    test_fixture("preamble-malformed-field.md", "malformed field");
 }
 
 #[test]
@@ -56,7 +56,7 @@ fn preamble_malformed_eip() {
 
 #[test]
 fn preamble_title_too_long() {
-    test_fixture("preamble-title-too-long.md", "exceeds max length of 44");
+    test_fixture("preamble-title-too-long.md", "exceeds max length");
 }
 
 #[test]
@@ -73,7 +73,7 @@ fn preamble_status() {
     test_fixture("preamble-status-abandoned.md", "abandoned: 1");
     test_fixture("preamble-status-rejected.md", "rejected: 1");
     test_fixture("preamble-status-superseded.md", "superseded: 1");
-    test_fixture("preamble-status-invalid.md", "unknown status type: Invalid");
+    test_fixture("preamble-status-invalid.md", "unknown status");
 }
 
 #[test]
@@ -117,7 +117,10 @@ fn preamble_updated() {
 fn preamble_requires() {
     test_fixture("preamble-requires-single.md", "draft: 1");
     test_fixture("preamble-requires-multiple.md", "draft: 1");
-    test_fixture("preamble-requires-malformed.md", "malformed EIP number");
+    test_fixture(
+        "preamble-requires-malformed.md",
+        "EIP should be an unsigned integer",
+    );
     test_fixture("preamble-requires-out-of-order.md", "ascending order");
     test_fixture(
         "preamble-requires-no-whitespace.md",
