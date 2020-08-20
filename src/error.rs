@@ -42,6 +42,7 @@ pub enum Error {
     AuthorHasEmailAndHandle,
     TrailingInfoAfterEmail,
     TrailingInfoAfterHandle,
+    MalformedEmail,
 }
 
 impl Error {
@@ -97,6 +98,7 @@ impl Error {
             Self::AuthorHasEmailAndHandle => "author can't include both an email and handle",
             Self::TrailingInfoAfterEmail => "trailing information after email",
             Self::TrailingInfoAfterHandle => "trailing information after handle",
+            Self::MalformedEmail => "malformed email",
         }
     }
 }
