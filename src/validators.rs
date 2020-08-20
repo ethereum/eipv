@@ -167,3 +167,19 @@ fn validate_author<'a>(acc: &mut Vec<String>, s: &str) -> Result<()> {
 
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn author_invalid_email() {
+        let a = "John Doe <@handle>";
+        let e = validate_author(&mut vec![], a);
+        assert_eq!(e, Err(Error::MalformedEmail));
+
+        let a = "John Doe <@handle.com>";
+        let e = validate_author(&mut vec![], a);
+        assert_eq!(e, Err(Error::MalformedEmail));
+    }
+}
