@@ -1,6 +1,6 @@
 [package]
 name = "eipv"
-version = "0.0.4"
+version = "0.0.5"
 authors = ["lightclient <crates@garnett.dev>"]
 license = "MIT OR Apache-2.0"
 description = "Ethereum Improvement Proposal validator"
@@ -13,6 +13,7 @@ edition = "2018"
 anyhow = "1.0"
 clap = "3.0.0-beta.1"
 chrono = "0.4"
+regex = "1.3"
 url = "2.1"
 
 [dev-dependencies]
