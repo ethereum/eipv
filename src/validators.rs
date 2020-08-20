@@ -2,6 +2,7 @@ use crate::eip::{Category, Status, Type};
 use crate::error::{Error, Result};
 
 use chrono::NaiveDate;
+use regex::Regex;
 use url::Url;
 
 const TITLE_MAX_LEN: usize = 44;
@@ -145,6 +146,11 @@ fn validate_author<'a>(acc: &mut Vec<String>, s: &str) -> Result<()> {
 
         if end != s.len() - 1 {
             return Err(Error::TrailingInfoAfterEmail);
+        }
+
+        let re = Regex::new(r#"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"#).unwrap();
+        if !re.is_match(&s[start..end]) {
+            return Err(Error::MalformedEmail);
         }
     }
 

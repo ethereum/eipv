@@ -115,6 +115,7 @@ dependencies = [
  "chrono",
  "clap",
  "predicates",
+ "regex",
  "url",
 ]
 
