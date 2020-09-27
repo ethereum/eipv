@@ -14,20 +14,20 @@ fn main() {
         .version("0.0.0")
         .about("Validate the structure of Ethereum Improvement Proposals")
         .arg(
-            Arg::with_name("path")
+            Arg::new("path")
                 .takes_value(true)
                 .required(true)
                 .about("Directory of EIPs or path to a specific EIP"),
         )
         .arg(
-            Arg::with_name("ignore")
+            Arg::new("ignore")
                 .takes_value(true)
                 .short('i')
                 .long("ignore")
                 .about("Run the validation suite, ignoring the specified errors."),
         )
         .arg(
-            Arg::with_name("skip")
+            Arg::new("skip")
                 .takes_value(true)
                 .short('s')
                 .long("skip")
