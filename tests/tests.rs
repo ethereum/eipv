@@ -67,12 +67,12 @@ fn preamble_invalid_discussions_to() {
 #[test]
 fn preamble_status() {
     test_fixture("preamble-status-draft.md", "draft: 1");
+    test_fixture("preamble-status-review.md", "review: 1");
     test_fixture("preamble-status-last-call.md", "last_call: 1");
-    test_fixture("preamble-status-accepted.md", "accepted: 1");
     test_fixture("preamble-status-final.md", "final: 1");
-    test_fixture("preamble-status-abandoned.md", "abandoned: 1");
-    test_fixture("preamble-status-rejected.md", "rejected: 1");
-    test_fixture("preamble-status-superseded.md", "superseded: 1");
+    test_fixture("preamble-status-stagnant.md", "stagnant: 1");
+    test_fixture("preamble-status-withdrawn.md", "withdrawn: 1");
+    test_fixture("preamble-status-living.md", "living: 1");
     test_fixture("preamble-status-invalid.md", "unknown status");
 }
 

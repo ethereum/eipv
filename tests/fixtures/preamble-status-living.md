@@ -3,7 +3,7 @@ eip: 1
 title: A sample proposal
 author: John Doe (@johndoe)
 discussions-to: https://example.com
-status: Superseded
+status: Living
 type: Standards Track
 category: Core
 created: 2020-01-01

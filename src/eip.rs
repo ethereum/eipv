@@ -168,26 +168,24 @@ impl Preamble {
 #[derive(Debug)]
 pub enum Status {
     Draft,
+    Review,
     LastCall,
-    Accepted,
     Final,
-    Active,
-    Abandoned,
-    Superseded,
-    Rejected,
+    Stagnant,
+    Withdrawn,
+    Living,
 }
 
 impl Status {
     pub fn from_str(s: &str) -> std::result::Result<Self, Error> {
         match s {
             "Draft" => Ok(Self::Draft),
+            "Review" => Ok(Self::Review),
             "Last Call" => Ok(Self::LastCall),
-            "Accepted" => Ok(Self::Accepted),
             "Final" => Ok(Self::Final),
-            "Active" => Ok(Self::Active),
-            "Abandoned" => Ok(Self::Abandoned),
-            "Superseded" => Ok(Self::Superseded),
-            "Rejected" => Ok(Self::Rejected),
+            "Stagnant" => Ok(Self::Stagnant),
+            "Withdrawn" => Ok(Self::Withdrawn),
+            "Living" => Ok(Self::Living),
             _ => Err(Error::UnknownStatus),
         }
     }
