@@ -18,13 +18,12 @@ pub struct Runner<'a> {
 
     // statuses count
     draft: u64,
+    review: u64,
     last_call: u64,
-    accepted: u64,
     final_: u64,
-    active: u64,
-    abandoned: u64,
-    superseded: u64,
-    rejected: u64,
+    stagnant: u64,
+    withdrawn: u64,
+    living: u64,
 
     // types count
     standards: u64,
@@ -111,13 +110,12 @@ impl<'a> Runner<'a> {
 
                 match eip.preamble.status {
                     Some(Ok(Status::Draft)) => self.draft += 1,
+                    Some(Ok(Status::Review)) => self.review += 1,
                     Some(Ok(Status::LastCall)) => self.last_call += 1,
-                    Some(Ok(Status::Accepted)) => self.accepted += 1,
                     Some(Ok(Status::Final)) => self.final_ += 1,
-                    Some(Ok(Status::Active)) => self.active += 1,
-                    Some(Ok(Status::Abandoned)) => self.abandoned += 1,
-                    Some(Ok(Status::Superseded)) => self.superseded += 1,
-                    Some(Ok(Status::Rejected)) => self.rejected += 1,
+                    Some(Ok(Status::Stagnant)) => self.stagnant += 1,
+                    Some(Ok(Status::Withdrawn)) => self.withdrawn += 1,
+                    Some(Ok(Status::Living)) => self.living += 1,
                     _ => (),
                 }
 
@@ -154,7 +152,7 @@ impl<'a> fmt::Display for Runner<'a> {
         }
 
         write!(f, "\n")?;
-        write!(f, "draft: {}, last_call: {}, accepted: {}, final: {}, active: {}, abandoned: {}, superseded: {}, rejected: {}\n", self.draft, self.last_call, self.accepted, self.final_, self.active, self.abandoned, self.superseded, self.rejected)?;
+        write!(f, "draft: {}, review: {}, last_call: {}, final: {}, stagnant: {}, withdrawn: {}, living: {}\n", self.draft, self.review, self.last_call, self.final_, self.stagnant, self.withdrawn, self.living)?;
         write!(f, "valid: {}, invalid: {}", self.valid, self.invalid)
     }
 }

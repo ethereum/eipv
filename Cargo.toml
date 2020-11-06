@@ -1,7 +1,7 @@
 [package]
 name = "eipv"
-version = "0.0.6"
-authors = ["lightclient <crates@garnett.dev>"]
+version = "0.1.0"
+authors = ["lightclient <lightclient@protonmail.com>"]
 license = "MIT OR Apache-2.0"
 description = "Ethereum Improvement Proposal validator"
 repository = "https://github.com/lightclient/eipv"

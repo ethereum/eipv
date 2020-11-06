@@ -3,7 +3,7 @@ eip: 1
 title: A sample proposal
 author: John Doe (@johndoe)
 discussions-to: https://example.com
-status: Accepted
+status: Stagnant
 type: Standards Track
 category: Core
 created: 2020-01-01
