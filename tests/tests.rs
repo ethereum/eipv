@@ -170,6 +170,7 @@ fn preamble_author() {
         "trailing information after handle",
     );
     test_fixture("preamble-author-email-invalid.md", "malformed email");
+    test_fixture("preamble-author-handle-invalid.md", "malformed handle");
 }
 
 #[test]

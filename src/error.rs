@@ -43,6 +43,7 @@ pub enum Error {
     TrailingInfoAfterEmail,
     TrailingInfoAfterHandle,
     MalformedEmail,
+    MalformedHandle,
 }
 
 impl Error {
@@ -99,6 +100,7 @@ impl Error {
             Self::TrailingInfoAfterEmail => "trailing information after email",
             Self::TrailingInfoAfterHandle => "trailing information after handle",
             Self::MalformedEmail => "malformed email",
+            Self::MalformedHandle => "malformed handle",
         }
     }
 }
