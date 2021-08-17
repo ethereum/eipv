@@ -108,6 +108,7 @@ impl Preamble {
             match key {
                 "eip" => insert!(preamble.eip, validators::eip, t),
                 "title" => insert!(preamble.title, validators::title, t),
+                "description" => insert(preamble.description, validators:description, t),
                 "author" => insert!(preamble.author, validators::author, t),
                 "discussions-to" => insert!(preamble.discussions_to, validators::discussions_to, t),
                 "status" => insert!(preamble.status, validators::status, t),
