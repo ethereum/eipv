@@ -30,7 +30,7 @@ pub fn title(s: &str) -> Result<String> {
 }
 
 pub fn description(s: &str) -> Result<String> {
-    return Ok(s.toString());
+    return Ok(s.to_string());
 }
 
 pub fn author(s: &str) -> Result<Vec<String>> {
