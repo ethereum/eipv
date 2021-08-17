@@ -6,7 +6,7 @@ use regex::Regex;
 use url::Url;
 
 const TITLE_MAX_LEN: usize = 44;
-const DESCRIPTION_MAX_LEN: usize = 125;
+const DESCRIPTION_MAX_LEN: usize = 140;
 
 pub fn preamble(s: &str) -> Result<(&str, &str)> {
     match s.starts_with("---\n") {

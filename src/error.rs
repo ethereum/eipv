@@ -81,7 +81,7 @@ impl Error {
             Self::EndDelimiterMissing => "missing trailing '---' in preamble",
             Self::MalformedEipNumber => "EIP should be an unsigned integer",
             Self::TitleExceedsMaxLength => "title exceeds max length of 44 characters",
-            Self::DescriptionExceedsMaxLength => "description exceeds max length of 125 characters",
+            Self::DescriptionExceedsMaxLength => "description exceeds max length of 140 characters",
             Self::MalformedDiscussionsTo => "discussions-to must be a URL",
             Self::UnknownStatus => "unknown status",
             Self::UnknownType => "unknown type",
