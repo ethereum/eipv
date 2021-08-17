@@ -6,6 +6,7 @@ use regex::Regex;
 use url::Url;
 
 const TITLE_MAX_LEN: usize = 44;
+const DESCRIPTION_MAX_LEN: usize = 125;
 
 pub fn preamble(s: &str) -> Result<(&str, &str)> {
     match s.starts_with("---\n") {
@@ -30,6 +31,10 @@ pub fn title(s: &str) -> Result<String> {
 }
 
 pub fn description(s: &str) -> Result<String> {
+    if DESCRIPTION_MAX_LEN < s.len() {
+        return Err(Error::DescriptionExceedsMaxLength);
+    }
+
     return Ok(s.to_string());
 }
 

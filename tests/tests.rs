@@ -177,3 +177,11 @@ fn preamble_author() {
 fn preamble_only_error_not_missing_field() {
     test_fixture_exclude_output("preamble-title-too-long.md", "missing");
 }
+
+#[test]
+fn preamble_description_too_long() {
+    test_fixture(
+        "preamble-description-too-long.md",
+        "description exceeds max length",
+    );
+}

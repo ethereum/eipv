@@ -1,19 +1,13 @@
 ---
 eip: 1
 title: A sample proposal
-description: This proposal is a sample that should be considered
-author: John Doe (@johndoe), Jenny Doe <jenny.doe@example.com>
+description: A sample proposal whose title is too long to still be considered valid for the purposes of the Ethereum Improvement Proposal processes and the repository in which they reside
+author: John Doe (@johndoe)
 discussions-to: https://example.com
 status: Draft
 type: Standards Track
 category: Core
 created: 2020-01-01
-updated: 2019-01-02, 2020-01-01
-requires: 20, 1337, 2048
-superseded-by: 3000
-replaces: 3
-review-period-end: 2020-01-01
-resolution: https://example.com
 ---
 
 ## Abstract
