@@ -75,7 +75,7 @@ impl<'a> Runner<'a> {
                     }
                 }
             }
-            Err(e) => panic!(e),
+            Err(e) => panic!("{}", e),
         }
     }
 
