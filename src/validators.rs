@@ -29,6 +29,10 @@ pub fn title(s: &str) -> Result<String> {
     return Ok(s.to_string());
 }
 
+pub fn description(s: &str) -> Result<String> {
+    return Ok(s.toString());
+}
+
 pub fn author(s: &str) -> Result<Vec<String>> {
     validate_csv(s, validate_author)
 }
