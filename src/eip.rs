@@ -24,6 +24,7 @@ impl Eip {
 pub struct Preamble {
     pub eip: Option<Result<u64>>,
     pub title: Option<Result<String>>,
+    pub description: Option<Result<String>>,
     pub author: Option<Result<Vec<String>>>,
     pub discussions_to: Option<Result<Url>>,
     pub status: Option<Result<Status>>,
