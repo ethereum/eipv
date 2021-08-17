@@ -24,6 +24,7 @@ impl Eip {
 pub struct Preamble {
     pub eip: Option<Result<u64>>,
     pub title: Option<Result<String>>,
+    pub description: Option<Result<String>>,
     pub author: Option<Result<Vec<String>>>,
     pub discussions_to: Option<Result<Url>>,
     pub status: Option<Result<Status>>,
@@ -107,6 +108,7 @@ impl Preamble {
             match key {
                 "eip" => insert!(preamble.eip, validators::eip, t),
                 "title" => insert!(preamble.title, validators::title, t),
+                "description" => insert!(preamble.description, validators::description, t),
                 "author" => insert!(preamble.author, validators::author, t),
                 "discussions-to" => insert!(preamble.discussions_to, validators::discussions_to, t),
                 "status" => insert!(preamble.status, validators::status, t),

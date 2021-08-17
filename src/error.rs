@@ -26,6 +26,7 @@ pub enum Error {
     EndDelimiterMissing,
     MalformedEipNumber,
     TitleExceedsMaxLength,
+    DescriptionExceedsMaxLength,
     MalformedDiscussionsTo,
     UnknownStatus,
     UnknownType,
@@ -50,6 +51,7 @@ impl Error {
     pub fn from_str(s: &str) -> anyhow::Result<Self> {
         match s {
             "title_max_length" => Ok(Self::TitleExceedsMaxLength),
+            "description_max_length" => Ok(Self::TitleExceedsMaxLength),
             "missing_discussions_to" => Ok(Self::MissingDiscussionsToField),
             _ => Err(anyhow!("unknown validator")),
         }
@@ -78,7 +80,8 @@ impl Error {
             Self::StartDelimiterMissing => "missing initial '---' in preamble",
             Self::EndDelimiterMissing => "missing trailing '---' in preamble",
             Self::MalformedEipNumber => "EIP should be an unsigned integer",
-            Self::TitleExceedsMaxLength => "title exceeds max length of 55 characters",
+            Self::TitleExceedsMaxLength => "title exceeds max length of 44 characters",
+            Self::DescriptionExceedsMaxLength => "description exceeds max length of 140 characters",
             Self::MalformedDiscussionsTo => "discussions-to must be a URL",
             Self::UnknownStatus => "unknown status",
             Self::UnknownType => "unknown type",

@@ -25,6 +25,7 @@ This tracks what `eipv` can validate.
 - [x] Preamble includes all required fields:
     - `eip`
     - `title`
+    - `description`
     - `author`
     - `discussions-to`
     - `created`
