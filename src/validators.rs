@@ -81,16 +81,8 @@ pub fn requires(s: &str) -> Result<Vec<u64>> {
     validate_csv(s, validate_eip)
 }
 
-pub fn replaces(s: &str) -> Result<Vec<u64>> {
-    validate_csv(s, validate_eip)
-}
-
-pub fn superseded_by(s: &str) -> Result<Vec<u64>> {
-    validate_csv(s, validate_eip)
-}
-
-pub fn resolution(s: &str) -> Result<Url> {
-    Ok(Url::parse(s).map_err(|_| Error::MalformedResolution)?)
+pub fn withdrawal_reason(s: &str) -> Result<String> {
+    Ok(s.to_string())
 }
 
 fn validate_csv<T, F: Fn(&mut Vec<T>, &str) -> Result<()>>(s: &str, f: F) -> Result<Vec<T>> {
