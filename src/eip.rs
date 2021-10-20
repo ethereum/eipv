@@ -34,9 +34,7 @@ pub struct Preamble {
     pub created: Option<Result<NaiveDate>>,
     pub updated: Option<Result<Vec<NaiveDate>>>,
     pub requires: Option<Result<Vec<u64>>>,
-    pub replaces: Option<Result<Vec<u64>>>,
-    pub superseded_by: Option<Result<Vec<u64>>>,
-    pub resolution: Option<Result<Url>>,
+    pub withdrawal_reason: Option<Result<String>>,
 }
 
 macro_rules! insert {
@@ -120,9 +118,9 @@ impl Preamble {
                 "created" => insert!(preamble.created, validators::created, t),
                 "updated" => insert!(preamble.updated, validators::updated, t),
                 "requires" => insert!(preamble.requires, validators::requires, t),
-                "replaces" => insert!(preamble.replaces, validators::replaces, t),
-                "superseded-by" => insert!(preamble.superseded_by, validators::superseded_by, t),
-                "resolution" => insert!(preamble.resolution, validators::resolution, t),
+                "withdrawal-reason" => {
+                    insert!(preamble.withdrawal_reason, validators::withdrawal_reason, t)
+                }
                 _ => errors.push(Error::UnknownPreambleField),
             }
         }

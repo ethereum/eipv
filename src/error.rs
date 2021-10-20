@@ -34,7 +34,6 @@ pub enum Error {
     MalformedReviewPeriodEnd,
     MalformedCreated,
     MalformedUpdated,
-    MalformedResolution,
     MissingSpaceAfterComma,
     ExtraWhitespaceBeforeComma,
     OutOfOrderEips,
@@ -89,7 +88,6 @@ impl Error {
             Self::MalformedReviewPeriodEnd => "malformed review-period-end date",
             Self::MalformedCreated => "malformed created date",
             Self::MalformedUpdated => "malformed updated date",
-            Self::MalformedResolution => "resolution must be a URL",
             Self::MissingSpaceAfterComma => {
                 "comma-separated values must have a single space following each comma"
             }
