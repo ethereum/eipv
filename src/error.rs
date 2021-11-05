@@ -31,7 +31,7 @@ pub enum Error {
     UnknownStatus,
     UnknownType,
     UnknownCategory,
-    MalformedReviewPeriodEnd,
+    MalformedLastCallDeadline,
     MalformedCreated,
     MalformedUpdated,
     MissingSpaceAfterComma,
@@ -85,7 +85,7 @@ impl Error {
             Self::UnknownStatus => "unknown status",
             Self::UnknownType => "unknown type",
             Self::UnknownCategory => "unknown category",
-            Self::MalformedReviewPeriodEnd => "malformed review-period-end date",
+            Self::MalformedLastCallDeadline => "malformed last-call-deadline date",
             Self::MalformedCreated => "malformed created date",
             Self::MalformedUpdated => "malformed updated date",
             Self::MissingSpaceAfterComma => {

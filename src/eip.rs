@@ -28,7 +28,7 @@ pub struct Preamble {
     pub author: Option<Result<Vec<String>>>,
     pub discussions_to: Option<Result<Url>>,
     pub status: Option<Result<Status>>,
-    pub review_period_end: Option<Result<NaiveDate>>,
+    pub last_call_deadline: Option<Result<NaiveDate>>,
     pub ty: Option<Result<Type>>,
     pub category: Option<Result<Category>>,
     pub created: Option<Result<NaiveDate>>,
@@ -110,8 +110,12 @@ impl Preamble {
                 "author" => insert!(preamble.author, validators::author, t),
                 "discussions-to" => insert!(preamble.discussions_to, validators::discussions_to, t),
                 "status" => insert!(preamble.status, validators::status, t),
-                "review-period-end" => {
-                    insert!(preamble.review_period_end, validators::review_period_end, t)
+                "last-call-deadline" => {
+                    insert!(
+                        preamble.last_call_deadline,
+                        validators::last_call_deadline,
+                        t
+                    )
                 }
                 "type" => insert!(preamble.ty, validators::ty, t),
                 "category" => insert!(preamble.category, validators::category, t),
