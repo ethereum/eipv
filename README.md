@@ -66,14 +66,8 @@ This tracks what `eipv` can validate.
     - [x] `created` is a date value 
     - [x] `updated` is a comma-separated list of date values
     - [x] `requires` is a comma-separated list of EIP numbers in ascending order
-    - [x] `superseded-by` is a comma-separated list of EIP numbers in ascending order
-    - [x] `replaces` is a comma-separated list of EIP numbers in ascending order
-    - [x] `resolution` is a URL
+    - [x] `withdrawal-reason` is a string
 - [ ] EIP numbers listed as `required` exist
-- [ ] EIP numbers listed as `superseded-by` exist and list the current EIP in
-  its `replaces` field
-- [ ] EIP numbers listed as `replaces` exist and list the current EIP in its
-  `superseded-by` field
 - [ ] The EIP body includes the required sections in the following order:
     - `Abstract`
     - `Motivation`
