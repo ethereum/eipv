@@ -4,7 +4,7 @@ title: A sample proposal
 author: John Doe (@johndoe)
 discussions-to: https://example.com
 status: Draft
-type: Standards Track
+type: Meta
 created: 2020-01-01
 ---
 
