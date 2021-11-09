@@ -158,7 +158,7 @@ impl Preamble {
             {
                 errors.push(Error::MissingCategoryField);
             }
-        } else if !ctx.should_ignore(&Error::MissingTypeField) {
+        } else if !ctx.should_ignore(&Error::MissingTypeField) && preamble.ty.is_none() {
             errors.push(Error::MissingTypeField);
         }
 
