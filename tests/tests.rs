@@ -96,10 +96,10 @@ fn preamble_category() {
 }
 
 #[test]
-fn preamble_review_period_end() {
+fn preamble_last_call_deadline() {
     test_fixture(
-        "preamble-review-period-end-malformed.md",
-        "malformed review-period-end",
+        "preamble-last-call-deadline-malformed.md",
+        "malformed last-call-deadline",
     );
 }
 

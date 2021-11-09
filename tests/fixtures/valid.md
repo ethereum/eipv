@@ -10,7 +10,7 @@ category: Core
 created: 2020-01-01
 updated: 2019-01-02, 2020-01-01
 requires: 20, 1337, 2048
-review-period-end: 2020-01-01
+last-call-deadline: 2020-01-01
 withdrawal-reason: This proposal doesn't make sense anymore.
 ---
 

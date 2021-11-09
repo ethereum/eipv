@@ -62,7 +62,7 @@ This tracks what `eipv` can validate.
         - `networking`
         - `interface`
         - `erc`
-    - [x] `review-period-end` is a date value 
+    - [x] `last-call-deadline` is a date value
     - [x] `created` is a date value 
     - [x] `updated` is a comma-separated list of date values
     - [x] `requires` is a comma-separated list of EIP numbers in ascending order

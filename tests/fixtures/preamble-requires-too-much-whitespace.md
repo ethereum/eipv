@@ -8,7 +8,6 @@ type: Standards Track
 category: Core
 created: 2020-01-01
 updated: 2020-01-01
-review-period-end: 2020-01-01
 requires: 20, 1337 , 2048
 ---
 

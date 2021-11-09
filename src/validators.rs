@@ -50,8 +50,8 @@ pub fn status(s: &str) -> Result<Status> {
     Status::from_str(s)
 }
 
-pub fn review_period_end(s: &str) -> Result<NaiveDate> {
-    NaiveDate::parse_from_str(s, "%Y-%m-%d").map_err(|_| Error::MalformedReviewPeriodEnd)
+pub fn last_call_deadline(s: &str) -> Result<NaiveDate> {
+    NaiveDate::parse_from_str(s, "%Y-%m-%d").map_err(|_| Error::MalformedLastCallDeadline)
 }
 
 pub fn ty(s: &str) -> Result<Type> {
