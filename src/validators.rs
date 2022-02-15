@@ -141,6 +141,10 @@ fn validate_author<'a>(acc: &mut Vec<String>, s: &str) -> Result<()> {
         return Err(Error::AuthorHasEmailAndHandle);
     }
 
+    if email_start.is_some() == false && handle_start.is_some() == false {
+        return Err(Error::AuthorHasNoContactDetails);
+    }
+
     if email_start.is_some() {
         let start = email_start.unwrap();
         let end = email_end.unwrap();
