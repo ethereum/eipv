@@ -149,7 +149,7 @@ fn validate_author<'a>(acc: &mut Vec<String>, s: &str) -> Result<()> {
             return Err(Error::TrailingInfoAfterEmail);
         }
 
-        let re = Regex::new(r#"(?:[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)"#).unwrap();
+        let re = Regex::new(r#"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"#).unwrap();
         if !re.is_match(&s[start + 1..end]) {
             return Err(Error::MalformedEmail);
         }
