@@ -1,5 +1,7 @@
 # EIP validator
 
+**Superseded by [`eipw`](https://github.com/ethereum/eipw)**
+
 [![license](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue)](https://github.com/lightclient/eipv)
 [![ci status](https://github.com/lightclient/eipv/workflows/ci/badge.svg)](https://github.com/lightclient/eipv/actions)
 
